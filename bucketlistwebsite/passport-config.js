@@ -5,7 +5,7 @@ const User = require('./models/Users'); // Import the User model
 function initialize(passport, getUserByUsername, getUserById) {
   const authenticateUser = async (username, password, done) => {
     try {
-      const user = getUserByUsername(username);
+      const user = await getUserByUsername(username);
       if (!user) {
         console.log('noUser');
         return done(null, false, { message: 'No user with that username' });

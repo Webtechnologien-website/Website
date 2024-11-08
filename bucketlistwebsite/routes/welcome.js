@@ -14,7 +14,9 @@ const login_controller = require("../controllers/loginController");
 router.get('/', login_controller.welcome_get);
 router.get('/login', login_controller.login_get);
 router.get('/signup', login_controller.signup_get);
+router.get('/home/:id', login_controller.home_user_get);
 router.post('/login', login_controller.login_post);
 router.post('/signup', login_controller.signup_post);
+router.post('/logout', login_controller.logout);
 
 module.exports = router;

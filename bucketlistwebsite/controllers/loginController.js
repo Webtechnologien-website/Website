@@ -15,11 +15,34 @@ exports.signup_get = (req, res) => {
   res.render('signup', { title: 'Sign Up' });
 };
 
-exports.login_post = async (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/home',
-    failureRedirect: '/login',
-    failureFlash: true
+exports.home_user_get = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.render('home', { title: 'Home', user: user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+};
+
+exports.login_post = (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect('/login');
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect(`/home/${user._id}`);
+    });
   })(req, res, next);
 };
 
@@ -97,8 +120,12 @@ exports.signup_post = [
 ];
 
 exports.logout = (req, res) => {
-  req.logout();
-  res.redirect('/login');
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
 };
 
 exports.checkAuthenticated = (req, res, next) => {

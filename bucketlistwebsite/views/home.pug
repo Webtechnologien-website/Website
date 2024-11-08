@@ -2,4 +2,7 @@ extends layout
 
 block content
   h1= title
-  p Here you can manage your bucket list, find new items, connect with other users, participate in forums, and plan your activities.
+  p Hello #{user.first_name} #{user.family_name} you can manage your bucket list, find new items, connect with other users, participate in forums, and plan your activities.
+  form(action="/logout" method="post")
+    input(type="hidden" name="_method" value="DELETE")
+    button.btn.btn-primary(type="submit") Log Out
