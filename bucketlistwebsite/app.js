@@ -10,6 +10,7 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const User = require('./models/Users');
 
+
 const initializePassport = require('./passport-config');
 initializePassport(
   passport,
@@ -21,6 +22,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const welcomeRouter = require('./routes/welcome');
 const loginController = require('./controllers/loginController');
+
 
 const app = express();
 
@@ -57,6 +59,7 @@ app.use(methodOverride('_method'));
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use("/", welcomeRouter);
+
 
 app.get('/', loginController.checkAuthenticated, (req, res) => {
   res.render('index', { name: req.user.name });

@@ -3,10 +3,12 @@ const { DateTime } = require('luxon');
 
 
 const bucketListSchema = new mongoose.Schema({
-  name:{ type: String, maxLength: 100, default: "My BucketList"},
+  name: { type: String, maxLength: 100, default: "My BucketList" },
+  description: { type: String, maxLength: 500, default: "Lorem ipsum" },  // Add description field
   createdAt: { type: Date, default: Date.now },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 });
+
 
 // Virtual for bucket list's URL
 bucketListSchema.virtual('url').get(function () {

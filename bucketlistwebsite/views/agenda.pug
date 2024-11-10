@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  if user
+    p Welcome to your agenda, #{user.first_name} #{user.family_name}. Here, you can view and manage your upcoming activities.
+  else
+    p Welcome to your agenda. Here, you can view and manage your upcoming activities.
+
+  ul
+    li Meeting at 10:00 AM
+    li Project deadline at 3:00 PM
+    li Team lunch at 12:00 PM

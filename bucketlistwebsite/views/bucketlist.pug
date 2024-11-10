@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+  form(action="/bucketlist" method="post")
+    div
+      label(for="name") Name
+      input(type="text" name="name" required value=name)
+
+    div
+      label(for="description") Description
+      textarea(name="description" rows="4")= description 
+    button.btn.btn-primary(type="submit") Create Bucket List
+
+  // Display validation errors if any
+  if errors && errors.length > 0
+    ul
+      each error in errors
+        li= error.msg
