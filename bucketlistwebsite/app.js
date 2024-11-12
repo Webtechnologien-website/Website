@@ -56,10 +56,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
+// Middleware to set user in res.locals
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use("/", welcomeRouter);
-
 
 app.get('/', loginController.checkAuthenticated, (req, res) => {
   res.render('index', { name: req.user.name });

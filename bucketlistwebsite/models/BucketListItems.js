@@ -5,8 +5,10 @@ const Schema = mongoose.Schema;
 
 const bucketListItemSchema = new Schema({
   username: { type: String, maxLength: 100, default: "A Bucketlist Item" },
-  description: { type:String, maxLength: 500 },
-  location: { type: String, maxlength: 100 },
+  description: { type: String, maxLength: 500 },
+  location: { type: String, maxLength: 100 },
+  latitude: { type: Number, required: true },
+  longitude: { type: Number, required: true },
   timeWhenOccurs: { type: Date },
 });
 

@@ -1,67 +1,23 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  color: #333;
+  background-color: #f4f4f4;
+  color: #ff0000;
   margin: 0;
   padding: 0;
-}
-
-a {
-  color: #ff0000;
-}
-
-header {
-  background-color: #0000ff;
-  padding: 5px 0;
-}
-
-.navbar {
-  display: flex;
-  justify-content: center;
-}
-
-.nav-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0px;
-  display: flex;
-}
-
-.nav-list li {
-  margin: 0 3px;
-}
-
-.nav-list a,
-.nav-list button {
-  color: rgb(255, 0, 0);
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.nav-list button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.nav-list a:hover,
-.nav-list button:hover {
-  text-decoration: underline;
 }
 
 .container {
   width: 80%;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
+  padding: 40px;
+  background-color: #0000ff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  margin-top: 20px;
+  border-radius: 50px;
+  margin-top: 25px;
 }
 
 h1 {
-  text-align: center;
+  text-align: top;
   color: #007bff;
 }
 
@@ -104,7 +60,7 @@ form input[type="text"],
 form textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ff0000;
   border-radius: 4px;
 }
 
@@ -131,13 +87,4 @@ ul.errors {
 
 ul.errors li {
   margin: 5px 0;
-}
-
-footer {
-  background-color: #0000ff;
-  color: #fff;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 }

@@ -19,10 +19,12 @@ router.post('/login', login_controller.login_post);
 router.post('/signup', login_controller.signup_post);
 router.post('/logout', login_controller.logout);
 
-router.get('/bucketlist', login_controller.checkAuthenticated, bucketlist_controller.bucketlist_create_get);
-router.post('/bucketlist', login_controller.checkAuthenticated, bucketlist_controller.bucketlist_create_post);
+router.get('/home/:id/bucketlist', login_controller.checkAuthenticated, bucketlist_controller.bucketlist_list);
+router.get('/home/:id/bucketlist/create', login_controller.checkAuthenticated, bucketlist_controller.bucketlist_create_get);
+router.post('/home/:id/bucketlist', login_controller.checkAuthenticated, bucketlist_controller.bucketlist_create_post);
 
-
+router.get('/home/:id/bucketlist/:id', login_controller.checkAuthenticated, bucketlist_controller.bucketlist_detail);
+router.get('/home/:id/bucketlist/:id/find_items', login_controller.checkAuthenticated, bucketlist_controller.find_items_get);
 
 
 module.exports = router;

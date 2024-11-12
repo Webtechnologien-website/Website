@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  .container
+    h1= title
+
+    // List all bucket list items
+    if items && items.length > 0
+      ul
+        each item in items
+          li
+            h3= item.name
+            p= item.description
+            p Location: #{item.location}
+            a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}/item/` + item._id) View
+            // Add a button to view the location on the map
+            button.btn.btn-secondary(type="button" onclick=`showLocation(${item.latitude}, ${item.longitude})`) View on Map
+
+    a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}/find_items`) Find More Items
+
+    // Map container
+    #map(style="height: 400px; width: 100%; margin-top: 20px;")
+
+    script.
+      let map;
+      function initMap() {
+        map = L.map('map').setView([51.03, 4.1], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+      }
+
+      function showLocation(lat, lng) {
+        const latlng = [lat, lng];
+        map.setView(latlng, 13);
+        L.marker(latlng).addTo(map);
+      }
+
+      document.addEventListener('DOMContentLoaded', initMap);
+
+    // Display validation errors if any
+    if errors && errors.length > 0
+      ul.errors
+        each error in errors
+          li= error.msg

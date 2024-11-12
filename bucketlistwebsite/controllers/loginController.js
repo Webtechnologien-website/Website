@@ -2,6 +2,11 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const userId= "";
+const BucketList = require('../models/BucketLists'); 
+const BucketListItem = require('../models/BucketListItems');
+const BucketListToBucketListItem = require('../models/BucketListToBucketListItem');
+const asyncHandler = require('express-async-handler');
 
 exports.welcome_get = (req, res) => {
   res.render('welcome', { title: 'Welcome' });
@@ -30,6 +35,15 @@ exports.home_user_get = async (req, res) => {
 };
 
 exports.login_post = (req, res, next) => {
+  body('username', 'Username must not be empty.')
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage('Username must be between 1 and 100 characters.')
+    .escape(),
+  body('password', 'Password must be between 8 and 100 characters.')
+    .isLength({ min: 8, max: 100 })
+    .escape(),
+  
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       return next(err);
@@ -141,3 +155,18 @@ exports.checkNotAuthenticated = (req, res, next) => {
   }
   next();
 };
+
+exports.find_items_get = asyncHandler(async (req, res) => {
+  try {
+    const bucketlistId = req.params.id;
+    const bucketlist = await BucketList.findById(bucketlistId);
+    if (!bucketlist) {
+      return res.status(404).send('Bucket list not found');
+    }
+    const availableItems = await BucketListItem.find();
+    res.render('find_items', { title: 'Find More Items', availableItems: availableItems, bucketlist: bucketlist, user: req.user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
