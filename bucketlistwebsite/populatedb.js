@@ -9,8 +9,6 @@ const userArgs = process.argv.slice(2);
 
 const BucketListItem = require("./models/BucketListItems");
 
-const bucketListItems = [];
-
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
@@ -29,18 +27,37 @@ async function main() {
   mongoose.connection.close();
 }
 
-async function bucketListItemCreate(username, description, location, timeWhenOccurs) {
-  const bucketListItem = new BucketListItem({ username, description, location, timeWhenOccurs });
-  await bucketListItem.save();
-  bucketListItems.push(bucketListItem);
-  console.log(`Added bucket list item: ${username}`);
-}
-
 async function createBucketListItems() {
-  console.log("Adding bucket list items");
-  await bucketListItemCreate("Skydiving", "Experience the thrill of freefalling from an airplane.", "California", new Date(2025, 6, 15));
-  await bucketListItemCreate("Visit the Great Wall of China", "Walk along the historic Great Wall of China.", "China", new Date(2025, 4, 10));
-  await bucketListItemCreate("Learn to play the guitar", "Take guitar lessons and learn to play your favorite songs.", "New York", new Date(2025, 9, 1));
-  await bucketListItemCreate("Scuba diving in the Great Barrier Reef", "Explore the underwater world of the Great Barrier Reef.", "Australia", new Date(2025, 11, 20));
-  await bucketListItemCreate("Run a marathon", "Train and complete a full marathon.", "Boston", new Date(2025, 3, 18));
+  const items = [
+    {
+      nameItem: "Eiffel Tower",
+      description: "Visit the Eiffel Tower",
+      location: "Paris, France",
+      latitude: 48.8584,
+      longitude: 2.2945,
+      timeWhenOccurs: new Date(),
+    },
+    {
+      nameItem: "Grand Canyon",
+      description: "Hike the Grand Canyon",
+      location: "Arizona, USA",
+      latitude: 36.1069,
+      longitude: -112.1129,
+      timeWhenOccurs: new Date(),
+    },
+    {
+      nameItem: "Northern Lights",
+      description: "See the Northern Lights",
+      location: "Reykjavik, Iceland",
+      latitude: 64.1466,
+      longitude: -21.9426,
+      timeWhenOccurs: new Date(),
+    },
+  ];
+
+  for (const item of items) {
+    const bucketListItem = new BucketListItem(item);
+    await bucketListItem.save();
+    console.log(`Added bucket list item: ${item.description}`);
+  }
 }

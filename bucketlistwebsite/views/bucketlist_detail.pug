@@ -2,6 +2,7 @@ extends layout
 
 block content
   .container
+    a.btn.btn-primary(href=`/home/${user._id}/bucketlist`) Back to BucketList List
     h1= title
 
     // List all bucket list items
@@ -34,7 +35,7 @@ block content
       function showLocation(lat, lng) {
         const latlng = [lat, lng];
         map.setView(latlng, 13);
-        L.marker(latlng).addTo(map);
+        L.marker(latlng).addTo(map).bindPopup(`Latitude: ${lat}, Longitude: ${lng}`).openPopup();
       }
 
       document.addEventListener('DOMContentLoaded', initMap);

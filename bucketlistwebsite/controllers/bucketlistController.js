@@ -5,6 +5,7 @@ const BucketListToBucketListItem = require('../models/BucketListToBucketListItem
 const User = require('../models/Users'); 
 const asyncHandler = require('express-async-handler');
 const userId = "";
+const { DateTime } = require('luxon');
 
 exports.bucketlist_detail = asyncHandler(async (req, res) => {
   try {
@@ -125,14 +126,33 @@ exports.find_items_get = asyncHandler(async (req, res) => {
       return res.status(404).send('Bucket list not found');
     }
     const availableItems = await BucketListItem.find();
-    res.render('find_items', { title: 'Find More Items', availableItems: availableItems, bucketlist: bucketlist, user: req.user });
+
+    const connections = await BucketListToBucketListItem.find({ bucketList: bucketlistId });
+    const connectedItemIds = connections.map(connection => connection.bucketListItem.toString());
+
+    const formattedItems = availableItems.map(item => {
+      return {
+        ...item.toObject(),
+        timeWhenOccursFormatted: item.timeWhenOccurs
+          ? DateTime.fromJSDate(item.timeWhenOccurs).setZone(req.user.timezone).toLocaleString(DateTime.DATETIME_MED)
+          : ''
+      };
+    });
+
+    res.render('find_items', { 
+      title: 'Find More Items', 
+      availableItems: formattedItems, 
+      bucketlist: bucketlist, 
+      user: req.user,
+      connectedItemIds: connectedItemIds
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
   }
 });
 
-exports.add_item_post = asyncHandler(async (req, res) => {
+exports.find_items_post = asyncHandler(async (req, res) => {
   try {
     const bucketlistId = req.params.id;
     const { itemId } = req.body;
@@ -148,7 +168,7 @@ exports.add_item_post = asyncHandler(async (req, res) => {
     });
     await newConnection.save();
 
-    res.redirect(`/home/${req.user._id}/bucketlist/${bucketlistId}`);
+    res.redirect(`/home/${req.user._id}/bucketlist/${bucketlistId}/find_items`);
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
