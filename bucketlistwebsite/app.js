@@ -56,6 +56,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
+// Serve FullCalendar core files
+app.use('/fullcalendar', express.static(path.join(__dirname, 'node_modules/@fullcalendar')));
+// Serve other static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 // Middleware to set user in res.locals
 app.use((req, res, next) => {
   res.locals.user = req.user;
