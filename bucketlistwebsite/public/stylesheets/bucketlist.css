@@ -24,7 +24,7 @@ body {
   width: 80%;
   margin: 0 auto;
   padding: 40px;
-  background-color: #0000ff;
+  background-color: #89aeaf;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 50px;
   margin-top: 25px;
@@ -101,4 +101,29 @@ ul.errors {
 
 ul.errors li {
   margin: 5px 0;
+}
+.nav-logo {
+  display: flex;
+  justify-content: center;
+  height: 70px; /* Adjust the height as needed */
+  width: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+.nav-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  border: 2px solid red; /* Red border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 5px; /* Padding inside the form */
+}
+.logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto; /* Push the logout form to the far right */
+  border: 2px solid red; /* Red border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 5px; /* Padding inside the form */
 }

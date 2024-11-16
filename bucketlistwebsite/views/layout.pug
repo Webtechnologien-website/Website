@@ -2,6 +2,7 @@ doctype html
 html
   head
     title= title
+    link(rel='icon', href='/images/websitebucketlist.png', type='image/png')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bucketlist.css')
     meta(charset='utf-8')
@@ -11,34 +12,43 @@ html
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js", integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+", crossorigin="anonymous")
     script(src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js")  body
+    script(src='/javascripts/cookie-consent.js')
+    body
+    // Cookie consent banner
+    #cookie-consent-banner(style='display: none;')
+      p This website uses cookies to ensure you get the best experience on our website.
+      a(href='/cookie-policy') Learn more
+      button#accept-cookies Accept
     header
       nav
         ul.nav-list
+          img(src='/images/websitebucketlist.png', alt='Website Logo', class='nav-logo')
           if user
-            li
-              form(action=`/home/${user._id}` method="get")
-                button.btn.btn-link(type="submit") Home
-            li
-              form(action=`/home/${user._id}/bucketlist` method="get")
-                button.btn.btn-link(type="submit") My Bucket List
-            li
-              form(action=`/home/${user._id}/bucketlistitemsforpost` method="get")
-                button.btn.btn-link(type="submit") Forum
-            li
-              form(action=`/home/${user._id}/agenda` method="get")
-                button.btn.btn-link(type="submit") Agenda
-            li
-              form(action="/logout" method="post")
-                input(type="hidden" name="_method" value="DELETE")
-                button.btn.btn-link(type="submit") Log Out
+            
+            form(action=`/home/${user._id}` method="get" class="nav-form")
+              button.btn.btn-link(type="submit") Home
+            
+            form(action=`/home/${user._id}/bucketlist` method="get" class="nav-form")
+              button.btn.btn-link(type="submit") My Bucket List
+            
+            form(action=`/home/${user._id}/bucketlistitemsforpost` method="get" class="nav-form")
+              button.btn.btn-link(type="submit") Forum
+            
+            form(action=`/home/${user._id}/agenda` method="get" class="nav-form")
+              button.btn.btn-link(type="submit") Agenda
+            
+            form(action="/logout" method="post" class="logout")
+              input(type="hidden" name="_method" value="DELETE")
+              button.btn.btn-link(type="submit") Log Out
           else
-            li
-              form(action='/login' method="get")
-                button.btn.btn-link(type="submit") Log In
-            li
-              form(action='/signup' method="get")
-                button.btn.btn-link(type="submit") Sign Up
+            
+            form(action='/login' method="get" class="nav-form")
+              button.btn.btn-link(type="submit") Log In
+            
+            form(action='/signup' method="get" class="nav-form")
+              button.btn.btn-link(type="submit") Sign Up
     main
       block content
     footer
       p &copy; 2024 BucketList Website
+  

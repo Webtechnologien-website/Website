@@ -10,6 +10,10 @@ const login_controller = require("../controllers/loginController");
 
 // Welcome Router
 // GET welcome page
+router.get('/cookie-policy', (req, res) => {
+    res.render('cookie_policy', { title: 'Cookie Policy' });
+});
+
 router.get('/', login_controller.welcome_get);
 router.get('/login', login_controller.login_get);
 router.get('/signup', login_controller.signup_get);

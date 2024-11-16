@@ -35,7 +35,13 @@ exports.bucketlistitem_list = asyncHandler(async (req, res) => {
     if (!bucketListItem) {
       return res.status(404).send('Bucket list item not found');
     }
-    const posts = await Post.find({ bucketListItem: bucketListItemId }).populate('user').populate('reactedPost').sort({ createdAt: 1 });
+    const posts = await Post.find({ bucketListItem: bucketListItemId })
+      .populate('user') // Populate user details
+      .populate({
+        path: 'reactedPost',
+        populate: { path: 'user' } // Populate user details for reactedPost
+      })
+      .sort({ createdAt: 1 });
   
     const formattedPosts = posts.map(post => ({
       ...post.toObject(),

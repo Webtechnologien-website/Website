@@ -1,7 +1,7 @@
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #89aeaf;
   color: #333;
   margin: 0;
   padding: 0;
@@ -52,7 +52,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #89aeaf;
 }
 
 p {
@@ -61,7 +61,7 @@ p {
 }
 
 a {
-  color: #007bff;
+  color: #8db1b3;
   text-decoration: none;
 }
 
