@@ -7,7 +7,36 @@ block content
   else
     p Welcome to your agenda. Here, you can view and manage your upcoming activities.
 
-  ul
-    li Meeting at 10:00 AM
-    li Project deadline at 3:00 PM
-    li Team lunch at 12:00 PM
+  div#calendar(style="margin: 20px 0; height: 600px;")
+
+  //- Include FullCalendar dependencies (updated paths)
+  script(src="/fullcalendar/core/index.global.min.js")
+  script(src="/fullcalendar/daygrid/index.global.min.js")
+  
+  //- Add some basic styling for the calendar
+  style.
+    #calendar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        },
+        height: 'auto',
+        events: [
+          { title: 'Meeting', start: '2024-11-16T10:00:00' },
+          { title: 'Project Deadline', start: '2024-11-16T15:00:00' },
+          { title: 'Team Lunch', start: '2024-11-16T12:00:00' }
+        ]
+      });
+      calendar.render();
+    });

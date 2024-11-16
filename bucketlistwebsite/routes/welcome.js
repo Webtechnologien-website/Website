@@ -27,4 +27,6 @@ router.get('/home/:id/bucketlist/:id', login_controller.checkAuthenticated, buck
 router.get('/home/:id/bucketlist/:id/find_items', login_controller.checkAuthenticated, bucketlist_controller.find_items_get);
 router.post('/home/:id/bucketlist/:id/add_item', login_controller.checkAuthenticated, bucketlist_controller.find_items_post);
 
+router.get('/home/:id/agenda', agenda_controller.agenda_get);
+
 module.exports = router;
