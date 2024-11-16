@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  .container
+    h1= title
+    p Welcome to the discussion page. Here you can discuss the bucket list item with other users.
+
+    .bucketlistitem-details
+      h2 Bucket List Item: #{bucketListItem.nameItem}
+      p Description: #{bucketListItem.description}
+      p Location: #{bucketListItem.location}
+      p Date: #{bucketListItem.timeWhenOccursFormatted}
+
+    // List all posts
+    if posts && posts.length > 0
+      ul
+        each post in posts
+          li
+            .post-details
+              p= post.title
+              p Author: #{post.user.username} (#{post.user.first_name} #{post.user.family_name})
+              p Date: #{post.createdAtFormatted}
+              p Body: #{post.body}
+              if post.reactedPost
+                p Reacted to: #{post.user.username} (#{post.user.first_name} #{post.user.family_name}) for: #{post.reactedPost.createdAtFormatted}
+
+    // Form to create a new post
+    form(action=`/home/${user._id}/bucketlistitem/${bucketListItemId}/posts` method="post")
+      div.form-group
+        label(for="title") Title:
+        input.form-control(type="text" name="title" required)
+      div.form-group
+        label(for="body") Body:
+        textarea.form-control(name="body" required)
+      button.btn.btn-primary(type="submit") Add Post

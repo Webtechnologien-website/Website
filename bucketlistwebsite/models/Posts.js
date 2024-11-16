@@ -7,6 +7,7 @@ const postSchema = new Schema({
   title: { type: String, required: true },
   body: { type: String, required: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  bucketListItem: { type: Schema.Types.ObjectId, ref: 'BucketListItem', required: true },
   status: { type: String, default: 'public' },
   createdAt: { type: Date, default: Date.now },
   reactedPost: { type: Schema.Types.ObjectId, ref: 'Post', default: null }, // Reference to the post that reacted to this post

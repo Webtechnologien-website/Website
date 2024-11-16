@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .container
+    h1= title
+    p Welcome to the Bucket List Items page. Here you can view all items and see the number of discussions.
+
+    // List all bucket list items with post counts
+    if bucketListItems && bucketListItems.length > 0
+      ul
+        each item in bucketListItems
+          li
+            .item-details
+              h2 #{item.nameItem}
+              p #{item.description}
+              p Location: #{item.location}
+              p Date: #{item.timeWhenOccursFormatted}
+              p Posts: #{item.postCount}
+              a.btn.btn-primary(href=`/home/${user._id}/bucketlistitem/${item._id}/posts`) View Discussion
+

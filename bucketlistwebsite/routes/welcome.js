@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 // Require our controllers.
-const user_controller = require("../controllers/userController.js");
 const bucketlist_controller = require("../controllers/bucketlistController");
 const bucketlistitem_controller = require("../controllers/bucketlistitemController.js");
 const agenda_controller = require("../controllers/agendaController.js");
@@ -26,5 +25,9 @@ router.post('/home/:id/bucketlist', login_controller.checkAuthenticated, bucketl
 router.get('/home/:id/bucketlist/:id', login_controller.checkAuthenticated, bucketlist_controller.bucketlist_detail);
 router.get('/home/:id/bucketlist/:id/find_items', login_controller.checkAuthenticated, bucketlist_controller.find_items_get);
 router.post('/home/:id/bucketlist/:id/add_item', login_controller.checkAuthenticated, bucketlist_controller.find_items_post);
+
+router.get('/home/:id/bucketlistitemsforpost', login_controller.checkAuthenticated, post_controller.bucketlistitem_list);
+router.get('/home/:id/bucketlistitem/:itemId/posts', login_controller.checkAuthenticated, post_controller.post_list);
+router.post('/home/:id/bucketlistitem/:itemId/posts', login_controller.checkAuthenticated, post_controller.post_create_post);
 
 module.exports = router;
