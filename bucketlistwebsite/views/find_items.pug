@@ -16,9 +16,8 @@ block content
               p #{item.description}
               p Location: #{item.location}
               p Date: #{item.timeWhenOccursFormatted}
-              a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}/item/` + item._id) View
               // Add a button to view the location on the map
-              button.btn.btn-secondary(type="button" onclick=`showLocation(${item.latitude}, ${item.longitude})`) View on Map
+              button.btn.btn-primary(type="button" onclick=`showLocation(${item.latitude}, ${item.longitude})`) View on Map
             .item-actions
               if connectedItemIds.includes(item._id.toString())
                 button.btn.btn-success(type="button") Added

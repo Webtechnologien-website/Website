@@ -10,12 +10,12 @@ block content
       ul
         each item in items
           li
-            h3= item.name
+            h3= item.nameItem
             p= item.description
             p Location: #{item.location}
-            a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}/item/` + item._id) View
+            p Date: #{item.timeWhenOccursFormatted}
             // Add a button to view the location on the map
-            button.btn.btn-secondary(type="button" onclick=`showLocation(${item.latitude}, ${item.longitude})`) View on Map
+            button.btn.btn-primary(type="button" onclick=`showLocation(${item.latitude}, ${item.longitude})`) View on Map
 
     a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}/find_items`) Find More Items
 
