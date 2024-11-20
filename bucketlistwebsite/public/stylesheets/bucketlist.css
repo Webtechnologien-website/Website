@@ -20,16 +20,6 @@ body {
   margin-bottom: 20px;
 }
 
-.container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 40px;
-  background-color: #89aeaf;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 50px;
-  margin-top: 25px;
-}
-
 h1 {
   text-align: top;
   color: #ff0000;

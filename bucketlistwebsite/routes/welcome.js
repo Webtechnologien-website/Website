@@ -3,7 +3,6 @@ const router = express.Router();
 
 // Require our controllers.
 const bucketlist_controller = require("../controllers/bucketlistController");
-const bucketlistitem_controller = require("../controllers/bucketlistitemController.js");
 const agenda_controller = require("../controllers/agendaController.js");
 const post_controller = require("../controllers/postController");
 const login_controller = require("../controllers/loginController");

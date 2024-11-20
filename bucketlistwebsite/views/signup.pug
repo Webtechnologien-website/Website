@@ -1,31 +1,33 @@
 extends loginlayout
 block content
   button.btn.btn-secondary.back-button(type='button', style= 'left: 1000px;', onclick='window.location.href="/"')
-    i.fa.fa-arrow-left Back to Welcome
-  h1 Sign Up
-  form(action='/signup', method='post')
-    div.form-group
-      label(for='username') Username:
-      input#username.form-control(type='text', name='username', required)
-    div.form-group
-      label(for='email') Email:
-      input#email.form-control(type='email', name='email', required)
-    div.form-group
-      label(for='first_name') First Name:
-      input#first_name.form-control(type='text', name='first_name', required)
-    div.form-group
-      label(for='family_name') Last Name:
-      input#last_name.form-control(type='text', name='family_name', required)
+      i.fa.fa-arrow-left Back to Welcome Page
 
-    div.form-group
-      label(for='password') Password:
-      input#password.form-control(type='password', name='password', required)
-    div.form-group
-      label(for='confirmPassword') Confirm Password:
-      input#confirmPassword.form-control(type='password', name='confirmPassword', required)     
-    button.btn.btn-primary(type='submit') Sign Up
-  p
-    a(href='/login') Login
+  #main
+    form(action='/signup', method='post')
+      div.label signup form
+      div.form-group
+        label(for='username') Username:
+        input#username.form-control(type='text', name='username', required, placeholder="username")
+      div.form-group
+        label(for='email') Email:
+        input#email.form-control(type='email', name='email', required, placeholder="email")
+      div.form-group
+        label(for='first_name') First Name:
+        input#first_name.form-control(type='text', name='first_name', required, placeholder="first name")
+      div.form-group
+        label(for='family_name') Last Name:
+        input#last_name.form-control(type='text', name='family_name', required, placeholder="family name")
+
+      div.form-group
+        label(for='password') Password:
+        input#password.form-control(type='password', name='password', required, placeholder="password")
+      div.form-group
+        label(for='confirmPassword') Confirm Password:
+        input#confirmPassword.form-control(type='password', name='confirmPassword', required, placeholder="password")     
+      button(type='submit') Sign Up
+      p
+        a(href='/login') Login
     
   if errors
     ul

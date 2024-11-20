@@ -17,12 +17,17 @@ exports.bucketlistitem_list = asyncHandler(async (req, res) => {
       return map;
     }, {});
   
+    const formattedItems = bucketListItems.map(item => ({
+      ...item.toObject(),
+      postCount: postCountMap[item._id] || 0,
+      timeWhenOccursFormatted: item.timeWhenOccurs
+        ? DateTime.fromJSDate(item.timeWhenOccurs).toLocaleString(DateTime.DATETIME_MED)
+        : ''
+    }));
+  
     res.render('bucketlistitem_list', {
       title: 'Bucket List Items',
-      bucketListItems: bucketListItems.map(item => ({
-        ...item.toObject(),
-        postCount: postCountMap[item._id] || 0
-      })),
+      bucketListItems: formattedItems,
       user: req.user
     });
   });

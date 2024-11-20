@@ -27,7 +27,15 @@ exports.home_user_get = async (req, res) => {
     if (!user) {
       return res.status(404).send('User not found');
     }
-    res.render('home', { title: 'Home', user: user });
+    res.render('home', { title: 'Home', user: user, script: `
+      document.addEventListener('DOMContentLoaded', function () {
+        let showTime = document.getElementById('showTime');
+        setInterval(() => {
+          let time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+          showTime.innerText = time;
+        }, 1000);
+      });
+    ` });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');

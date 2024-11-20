@@ -89,6 +89,12 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve particles.js from node_modules
+app.use('/particles.js', express.static(path.join(__dirname, 'node_modules/particles.js/particles.js')));
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

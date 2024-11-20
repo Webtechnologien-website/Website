@@ -1,10 +1,13 @@
-/* General Styles */
+/* W3hubs.com - Download Free Responsive Website Layout Templates designed on HTML5 CSS3,Bootstrap,Tailwind CSS which are 100% Mobile friendly. w3Hubs all Layouts are responsive cross browser supported, best quality world class designs. */
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #89aeaf;
-  color: #333;
-  margin: 0;
+  background-image: url('https://w3hubs.com/Login-Form-In-Pug/bg.jpg');
   padding: 0;
+  margin: 0px;
+  font-family: 'Lato', sans-serif;
+}
+
+#main {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,59 +15,118 @@ body {
 }
 
 form {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(35, 37, 141, 0.1);
-  width: 300px;
-  margin-top: 50px; /* Add margin to ensure the form does not overlap with the button */
+  background-color: rgba(60, 89, 107, 0.63);
+  width: 40%;
+  padding: 30px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
 
-.form-group {
-  margin-bottom: 15px; /* Add margin between form groups */
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input {
+.form-group input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  height: 40px;
+  border: 0px;
+  margin: 5px 5px 15px;
+  box-sizing: border-box;
+  padding: 15px 15px;
+}
+
+input:focus,
+button:focus {
+  outline: none;
 }
 
 button {
+  background: #63cdda;
+  color: #fff;
+  border: 0px;
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  margin: 5px;
+  font-size: 24px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #89aeaf;
+.checkbox {
+  color: #fff;
+  padding-bottom: 10px;
+}
+
+h3 {
+  font-size: 24px;
+  text-align: center;
+  color: #fff;
+  text-transform: capitalize;
+  margin-bottom: 10px;
 }
 
 p {
   text-align: center;
-  margin-top: 10px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+}
+
+.social button {
+  display: flex;
+  width: 30px;
+  padding: 5px;
+  background-color: transparent;
+  justify-content: center;
+  text-transform: capitalize;
+}
+
+.social button:nth-child(1) {
+  background-color: #3498db;
+}
+
+.social button:nth-child(2) {
+  background-color: #e74c3c;
+}
+
+.fa {
+  float: left;
+  font-size: 18px;
 }
 
 a {
-  color: #8db1b3;
+  padding-left: 5px;
   text-decoration: none;
+  color: #63cdda;
+  text-transform: capitalize;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+.label {
+  font-size: 40px;
+  text-align: center;
+  color: #fff;
+  padding-bottom: 15px;
+  text-transform: capitalize;
+}
+
+@media(max-width:610px) {
+  form {
+    width: 60%;
+  }
+
+  button {
+    padding: 5px;
+  }
+}
+
+@media(max-width:420px) {
+  form {
+    width: 70%;
+  }
+
+  h3 {
+    margin: 10px;
+  }
 }
