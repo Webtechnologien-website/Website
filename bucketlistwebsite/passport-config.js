@@ -15,11 +15,13 @@ function initialize(passport, getUserByUsername, getUserById) {
         return done(null, false, { message: 'Password hash not found' });
       }
 
-      const isMatch = bcrypt.compare(password, user.passwordHash);
+      const isMatch = await user.validatePassword(password);
+      console.log(user);
       if (isMatch) {
         console.log('match');
         return done(null, user);
       } else {
+        console.log(password);
         console.log('noMatch');
         return done(null, false, { message: 'Password incorrect' });
       }

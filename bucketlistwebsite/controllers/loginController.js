@@ -120,7 +120,7 @@ exports.signup_post = [
       }
 
       // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+
 
       // Create a new user
       const newUser = new User({
@@ -128,7 +128,7 @@ exports.signup_post = [
         email: email,
         first_name: first_name,
         family_name: family_name,
-        passwordHash: hashedPassword,
+        passwordHash: password,
       });
       await newUser.save();
 
