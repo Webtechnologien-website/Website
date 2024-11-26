@@ -16,11 +16,31 @@ block content
             p Date: #{item.timeWhenOccursFormatted}
             // Add a button to view the location on the map
             button.btn.btn-primary(type="button" onclick=`showLocation(${item.latitude}, ${item.longitude})`) View on Map
+            button.btn.btn-primary(type="button" onclick=`openDateModal('${item._id}', '${item.nameItem}')`) Add to agenda
 
     a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}/find_items`) Find More Items
 
     // Map container
     #map(style="height: 400px; width: 100%; margin-top: 20px;")
+
+    // Date selector modal
+    #dateModal.modal.fade(tabindex="-1", role="dialog")
+      .modal-dialog(role="document")
+        .modal-content
+          .modal-header
+            h5.modal-title Select Date
+            button.close(type="button", data-dismiss="modal", aria-label="Close")
+              span(aria-hidden="true") &times;
+          .modal-body
+            form#dateForm
+              input(type="hidden" name="itemId" id="modalItemId")
+              input(type="hidden" name="itemName" id="modalItemName")
+              .form-group
+                label(for="date") Select Date
+                input.form-control(type="date" name="date" id="modalDate")
+          .modal-footer
+            button.btn.btn-primary(type="button" onclick="addToAgenda()") Save
+            button.btn.btn-secondary(type="button" data-dismiss="modal") Close
 
     script.
       let map;
@@ -36,6 +56,38 @@ block content
         const latlng = [lat, lng];
         map.setView(latlng, 13);
         L.marker(latlng).addTo(map).bindPopup(`Latitude: ${lat}, Longitude: ${lng}`).openPopup();
+      }
+
+      function openDateModal(itemId, itemName) {
+        document.getElementById('modalItemId').value = itemId;
+        document.getElementById('modalItemName').value = itemName;
+        $('#dateModal').modal('show');
+      }
+
+      async function addToAgenda() {
+        const itemId = document.getElementById('modalItemId').value;
+        const itemName = document.getElementById('modalItemName').value;
+        const date = document.getElementById('modalDate').value;
+
+        if (!date) {
+          alert('Please select a date.');
+          return;
+        }
+
+        const response = await fetch('/agenda/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ itemId, itemName, date })
+        });
+
+        if (response.ok) {
+          $('#dateModal').modal('hide');
+          alert('Item added to agenda successfully!');
+        } else {
+          alert('Failed to add item to agenda.');
+        }
       }
 
       document.addEventListener('DOMContentLoaded', initMap);

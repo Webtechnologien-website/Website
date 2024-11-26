@@ -10,6 +10,7 @@
   "dependencies": {
     "@fullcalendar/core": "^6.1.10",
     "@fullcalendar/daygrid": "^6.1.10",
+    "all": "^0.0.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cookie-parser": "~1.4.4",
@@ -24,6 +25,7 @@
     "http-errors": "~1.6.3",
     "luxon": "^3.5.0",
     "method-override": "^3.0.0",
+    "mongodb": "^6.11.0",
     "mongoose": "^8.8.0",
     "morgan": "~1.9.1",
     "particles.js": "^2.0.0",

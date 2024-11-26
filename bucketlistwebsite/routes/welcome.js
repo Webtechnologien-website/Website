@@ -34,5 +34,6 @@ router.get('/home/:id/bucketlistitem/:itemId/posts', login_controller.checkAuthe
 router.post('/home/:id/bucketlistitem/:itemId/posts', login_controller.checkAuthenticated, post_controller.post_create_post);
 
 router.get('/home/:id/agenda', agenda_controller.agenda_get);
+router.post('/agenda/add', login_controller.checkAuthenticated, agenda_controller.add_to_agenda); // New route for adding to agenda
 
 module.exports = router;
