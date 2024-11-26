@@ -206,11 +206,11 @@
    }
    
    footer {
-    
-     z-index: 1;
-     background-color: #89aeaf71;
-     color: #fff;
-     text-align: center;
-     bottom: 0;
-     width: 100%;
-   }
+    z-index: 1;
+    background-color: #89aeaf71;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    position: relative; /* Change from fixed to relative */
+    padding: 10px 0; /* Add some padding for better spacing */
+  }

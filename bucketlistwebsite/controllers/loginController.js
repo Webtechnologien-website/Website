@@ -130,7 +130,7 @@ exports.signup_post = [
         family_name: family_name,
         passwordHash: password,
       });
-      await newUser.save();
+      await newUser.register();
 
       // Registration successful, redirect to login page
       return res.redirect('/login');
