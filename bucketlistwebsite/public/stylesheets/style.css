@@ -82,54 +82,85 @@
    a {
      color: #ff0000;
    }
-   
    header {
-     background-color: #89aeaf7e;
-     padding: 5px 0;
-     z-index: 1;
+    z-index: 1;
    }
-   
-   .navbar {
-     display: flex;
-     justify-content: center;
-   }
-  
+   nav{
+    background-color: #89aeaf7e;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  nav ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: 5px
+    
 
-   .nav-list {
-     list-style-type: none;
-     padding: 0;
-     margin: 0px;
-     display: flex;
-   }
-   
-   .nav-list li {
-     margin: 0 3px;
-   }
-   
-   .nav-list a,
-   .nav-list button {
-     color: rgb(255, 0, 0);
-     text-decoration: none;
-     font-weight: bold;
-   }
-   
-   .nav-list button {
-     background: none;
-     border: none;
-     cursor: pointer;
-     padding: 0;
-   }
-   
-   .nav-list a:hover,
-   .nav-list button:hover {
-     text-decoration: underline;
-   }
+  }
+  nav li{
+    background-color: #89aeaf7e;
+    height: 50px;
+  }
+  nav a{
+    background-color: #89aeaf7e;
+    height: 100%;
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+  nav a:hover{
+    background-color: #f0f0f0;
+  }
+  nav li:first-child{
+    margin-right: auto;
+  }
+  .sidebar{
+    z-index: 2;
+    top: 0; 
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .sidebar li{
+    width: 100%;
+  }
+  .sidebar a{
+    width: 100%;
+  }
+  .menu-button{
+    display: none;
+  }
+  @media(max-width: 800px){
+    .hideOnMobile{
+      display: none;
+    }
+    .menu-button{
+      display: block;
+    }
+  }
+  @media(max-width: 400px){
+    .sidebar{
+      width: 100%;
+    }
+  }
    
    .container {
      position: relative;
      margin: 20px auto;
      padding: 20px;
-     background-color: #fff;
+     background-color: #6caaac;
      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
      border-radius: 5px;
      width: auto; /* Adjust width to fit content */
@@ -138,14 +169,13 @@
    }
    
    ul {
+    background-color: #6caaac;
      list-style-type: none;
      padding: 0;
    }
    
    ul li {
-     background-color: #e9ecef;
-     margin: 10px 0;
-     padding: 10px;
+     background-color: #6caaac;
      border-radius: 5px;
    }
    
@@ -203,7 +233,7 @@
      background-color: #3498db;
      color: #fff;
      border: none;
-     padding: 10px 20px;
+     padding: 3px 20px;
      border-radius: 5px;
      cursor: pointer;
    }
