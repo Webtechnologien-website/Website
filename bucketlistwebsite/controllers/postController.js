@@ -70,9 +70,9 @@ exports.bucketlistitem_list = asyncHandler(async (req, res) => {
   exports.post_create_post = asyncHandler(async (req, res) => {
     const { title, body } = req.body;
     const bucketListItemId = req.params.itemId;
-    
-    const lastPost = await Post.findOne({ bucketListItem: bucketListItemId }).sort({ createdAt: -1 });
 
+    // Find the last post in the thread
+    const lastPost = await Post.findOne({ bucketListItem: bucketListItemId }).sort({ createdAt: -1 });
 
     const newPost = new Post({
       title: title,
@@ -81,7 +81,21 @@ exports.bucketlistitem_list = asyncHandler(async (req, res) => {
       bucketListItem: bucketListItemId,
       reactedPost: lastPost ? lastPost._id : null
     });
-  
+
     await newPost.save();
-    res.redirect(`/home/${req.user._id}/bucketlistitem/${bucketListItemId}/posts`);
+
+    // Populate user and reactedPost details
+    const populatedPost = await Post.findById(newPost._id).populate('user').populate({
+      path: 'reactedPost',
+      populate: { path: 'user' }
+    });
+
+    // Format the createdAt field using Luxon
+    populatedPost.createdAtFormatted = DateTime.fromJSDate(populatedPost.createdAt).toLocaleString(DateTime.DATETIME_MED);
+
+    if (populatedPost.reactedPost) {
+      populatedPost.reactedPost.createdAtFormatted = DateTime.fromJSDate(populatedPost.reactedPost.createdAt).toLocaleString(DateTime.DATETIME_MED);
+    }
+
+    res.json({ newPost: populatedPost });
   });

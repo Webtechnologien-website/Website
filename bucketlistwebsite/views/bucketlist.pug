@@ -6,14 +6,14 @@ block content
 
     // List all bucket list items
     if bucketlists && bucketlists.length > 0
-      ul
+      ul.bucketlist-list
         each bucketlist in bucketlists
           li
             h2= bucketlist.name
             p= bucketlist.description
             a.btn.btn-primary(href=`/home/${user._id}/bucketlist/` + bucketlist._id) View
 
-    form(action=`/home/${user._id}/bucketlist` method="post")
+    form(action=`/home/${user._id}/bucketlist` method="post" class="create-bucketlist-form")
       div
         label(for="name") Name
         input(type="text" name="name" required)

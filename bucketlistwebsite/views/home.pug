@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  #particles-js
+  
     .container
       h1= title
       p Hello #{user.first_name} #{user.family_name} you can manage your bucket list, find new items, connect with other users, participate in forums, and plan your activities.
@@ -10,6 +10,9 @@ block content
         h3#showTime
         h5 &ldquo;The most precious resource we all have is time.&rdquo; &mdash; Steve Jobs
         h4 So what are you waiting for? Start adding items to your bucket list today!
+
+
+    
     
 block extraStyles
   link(rel='stylesheet', href='/stylesheets/home.css')

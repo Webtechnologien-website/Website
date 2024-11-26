@@ -1,24 +1,49 @@
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+#cookie-consent-banner {
+  position: fixed;
+  top: 80px;
+  z-index: 1; /* Ensure it is above other content */
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1, h2 {
-  color: #333;
+#cookie-consent-banner p {
+  margin: 0;
+  padding: 0;
 }
 
-p {
-  line-height: 1.6;
+#cookie-consent-banner a {
+  color: #0080ff;
+  text-decoration: underline;
+}
+
+#cookie-consent-banner button {
+  background-color: #89aeaf78;
+  color: #000;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+#cookie-consent-banner button:hover {
+  background-color: #00ffff;
 }
 
 ul {
-  list-style-type: disc;
-  margin-left: 20px;
+  list-style-type: none;
+  padding: 0;
 }
 
 ul li {
-  margin-bottom: 10px;
+  background-color: #e9ecef;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 strong {

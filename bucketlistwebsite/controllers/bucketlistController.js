@@ -46,64 +46,19 @@ exports.bucketlist_create_get = (req, res) => {
 };
 
 // Handle bucket list creation on POST
-exports.bucketlist_create_post = [
-  // Validate and sanitize fields.
-  body('name', 'Name must not be empty.')
-    .trim()
-    .isLength({ min: 1, max: 100 })
-    .withMessage('Name must be between 1 and 100 characters.')
-    .escape(),
-  body('description', 'Description must not be empty.')
-    .trim()
-    .isLength({ min: 1, max: 500 })
-    .withMessage('Description must be between 1 and 500 characters.')
-    .escape(),
+exports.bucketlist_create_post = asyncHandler(async (req, res) => {
+  const { name, description } = req.body;
 
-  // Process request after validation and sanitization.
-  async (req, res) => {
-    console.log(req.body);
-    const errors = validationResult(req);
+  const newBucketlist = new BucketList({
+    name: name,
+    description: description,
+    user: req.user._id
+  });
 
-    // Extract the validated and sanitized data.
-    const { name, description } = req.body;
+  await newBucketlist.save();
 
-    if (!errors.isEmpty()) {
-      console.log("Validation error:", errors.array());
-      // There are errors. Render the form again with sanitized values/error messages.
-      const userId = req.user._id;
-      const bucketlists = await BucketList.find({ user: userId });
-      return res.render('bucketlist', { title: 'My Bucket List', bucketlists: bucketlists, user: req.user, errors: errors.array() });
-    }
-
-    try {
-      const userId = req.user._id; // Ensure the user object is accessed correctly
-      const newBucketlist = new BucketList({
-        name: name,
-        description: description,
-        user: userId,
-        createdAt: Date.now()
-      });
-
-      // Save the new bucket list to the database
-      await newBucketlist.save();
-      console.log('Bucket list created successfully');
-
-      // Redirect to the home page after successful creation
-      res.redirect(`/home/${userId}/bucketlist`);
-    } catch (error) {
-      console.error(error);
-      const userId = req.user._id;
-      const bucketlists = await BucketList.find({ user: userId });
-      res.render('bucketlist', { 
-        title: 'My Bucket List', 
-        bucketlists: bucketlists,
-        user: req.user,
-        error: 'An error occurred, please try again', 
-        errors: [] 
-      });
-    }
-  }
-];
+  res.json({ newBucketlist });
+});
 
 // Handle bucket list deletion on POST
 exports.bucketlist_delete_post = asyncHandler(async (req, res) => {
@@ -118,26 +73,25 @@ exports.bucketlist_delete_post = asyncHandler(async (req, res) => {
   }
 });
 
+// Display available items to add to the bucket list
 exports.find_items_get = asyncHandler(async (req, res) => {
   try {
-    const bucketlistId = req.params.id;
-    const bucketlist = await BucketList.findById(bucketlistId);
+    const bucketListId = req.params.id;
+    const bucketlist = await BucketList.findById(bucketListId);
     if (!bucketlist) {
       return res.status(404).send('Bucket list not found');
     }
     const availableItems = await BucketListItem.find();
 
-    const connections = await BucketListToBucketListItem.find({ bucketList: bucketlistId });
+    const connections = await BucketListToBucketListItem.find({ bucketList: bucketListId });
     const connectedItemIds = connections.map(connection => connection.bucketListItem.toString());
 
-    const formattedItems = availableItems.map(item => {
-      return {
-        ...item.toObject(),
-        timeWhenOccursFormatted: item.timeWhenOccurs
-          ? DateTime.fromJSDate(item.timeWhenOccurs).setZone(req.user.timezone).toLocaleString(DateTime.DATETIME_MED)
-          : ''
-      };
-    });
+    const formattedItems = availableItems.map(item => ({
+      ...item.toObject(),
+      timeWhenOccursFormatted: item.timeWhenOccurs
+        ? DateTime.fromJSDate(item.timeWhenOccurs).toLocaleString(DateTime.DATETIME_MED)
+        : ''
+    }));
 
     res.render('find_items', { 
       title: 'Find More Items', 
@@ -152,25 +106,28 @@ exports.find_items_get = asyncHandler(async (req, res) => {
   }
 });
 
+// Handle adding item to bucket list
 exports.find_items_post = asyncHandler(async (req, res) => {
-  try {
-    const bucketlistId = req.params.id;
-    const { itemId } = req.body;
-    const bucketlist = await BucketList.findById(bucketlistId);
-    if (!bucketlist) {
-      return res.status(404).send('Bucket list not found');
-    }
+  const { itemId } = req.body;
+  const bucketListId = req.params.id;
 
-    // Voeg de item toe aan de connectietabel
-    const newConnection = new BucketListToBucketListItem({
-      bucketList: bucketlistId,
-      bucketListItem: itemId
-    });
-    await newConnection.save();
-
-    res.redirect(`/home/${req.user._id}/bucketlist/${bucketlistId}/find_items`);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server error');
+  const bucketList = await BucketList.findById(bucketListId);
+  if (!bucketList) {
+    return res.status(404).send('Bucket list not found');
   }
+
+  const bucketListItem = await BucketListItem.findById(itemId);
+  if (!bucketListItem) {
+    return res.status(404).send('Bucket list item not found');
+  }
+
+  // Create a new connection between the bucket list and the item
+  const newConnection = new BucketListToBucketListItem({
+    bucketList: bucketListId,
+    bucketListItem: itemId
+  });
+
+  await newConnection.save();
+
+  res.json({ success: true });
 });

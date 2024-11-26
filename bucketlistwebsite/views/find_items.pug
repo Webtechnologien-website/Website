@@ -22,7 +22,7 @@ block content
               if connectedItemIds.includes(item._id.toString())
                 button.btn.btn-success(type="button") Added
               else
-                form(action=`/home/${user._id}/bucketlist/${bucketlist._id}/add_item` method="post")
+                form(action=`/home/${user._id}/bucketlist/${bucketlist._id}/add_item` method="post" class="add-item-form")
                   input(type="hidden" name="itemId" value=item._id)
                   button.btn.btn-secondary(type="submit") Add
 
