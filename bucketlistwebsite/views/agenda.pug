@@ -1,13 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  if user
-    p Welcome to your agenda, #{user.first_name} #{user.family_name}. Here, you can view and manage your upcoming activities.
-  else
-    p Welcome to your agenda. Here, you can view and manage your upcoming activities.
+  .container
+    h1= title
+    if user
+      p Welcome to your agenda, #{user.first_name} #{user.family_name}. Here, you can view and manage your upcoming activities.
+    else
+      p Welcome to your agenda. Here, you can view and manage your upcoming activities.
 
-  div#calendar(style="margin: 20px 0; height: 600px;")
+  div#calendar(style="margin: 40px 0; height: 600px;")
 
   //- Include FullCalendar dependencies (updated paths)
   script(src="/fullcalendar/core/index.global.min.js")
@@ -16,9 +17,11 @@ block content
   //- Add some basic styling for the calendar
   style.
     #calendar {
-      max-width: 1100px;
-      margin: 0 auto;
+      position: static; 
+      z-index: 0;
+      margin: 0 20px;
       padding: 20px;
+      flex: 1;
     }
 
   script.

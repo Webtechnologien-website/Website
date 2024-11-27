@@ -9,7 +9,7 @@ const BucketListToBucketListItem = require('../models/BucketListToBucketListItem
 const asyncHandler = require('express-async-handler');
 
 exports.welcome_get = (req, res) => {
-  res.render('welcome', { title: 'Welcome' });
+  res.render('Home', { title: 'home' });
 };
 
 exports.login_get = (req, res) => {
@@ -173,6 +173,20 @@ exports.find_items_get = asyncHandler(async (req, res) => {
     }
     const availableItems = await BucketListItem.find();
     res.render('find_items', { title: 'Find More Items', availableItems: availableItems, bucketlist: bucketlist, user: req.user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+exports.change_settings_get = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.render('change_user_settings', { title: 'Change Settings', user: user });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');

@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    .container
+      h1 Change User Settings
+      form(action="/change-username" method="post")
+        div
+          label(for="username") Username:
+          input(type="text" name="username" id="username" required)
+        div
+          button(type="submit") Save username
+        
+      form(action="/change-email" method="post")
+        div
+          label(for="email") Email:
+          input(type="email" name="email" id="email" required)
+        div
+          button(type="submit") Save email
+      form(action="/change-password" method="post")
+        div
+          label(for="password") Password:
+          input(type="password" name="password" id="password" required)
+        div
+          label(for="confirm_password") Confirm Password:
+          input(type="password" name="confirm_password" id="confirm_password" required)
+        div
+          button(type="submit") Save password

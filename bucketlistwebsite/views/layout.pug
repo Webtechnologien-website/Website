@@ -33,7 +33,9 @@ html
       a(href='/cookie-policy') Learn more
       button#accept-cookies Accept
     header
+      
       nav
+        
         ul.sidebar
           li(onclick='hideSidebar()')
             a(href='#')
@@ -48,8 +50,8 @@ html
               a.btn.btn-primary(href=`/home/${user._id}/bucketlistitemsforpost`) Forum
             li
               a.btn.btn-primary(href=`/home/${user._id}/agenda`) Agenda
-            
-              form(action="/logout" method="post" class="logout")
+            li
+              form(action="/logout" method="post" class="logout-form")
                 input(type="hidden" name="_method" value="DELETE")
                 button.btn.btn-link(type="submit") Log Out
           else
@@ -58,20 +60,32 @@ html
             li
               a.btn.btn-primary(href='/signup') Sign Up
         ul
-          li
-            a.btn.btn-primary(href=`/home/${user._id}`) BucketBound
-          li.hideOnMobile
-            a.btn.btn-primary(href=`/home/${user._id}/bucketlist`) My Bucket List
-          li.hideOnMobile
-            a.btn.btn-primary(href=`/home/${user._id}/bucketlistitemsforpost`) Forum
-          li.hideOnMobile
-            a.btn.btn-primary(href=`/home/${user._id}/agenda`) Agenda
-          li.hideOnMobile
-            a.btn.btn-primary(href='/login') Logout
-          li.menu-button(onclick='showSidebar()')
-            a(href='#')
-              svg(xmlns='http://www.w3.org/2000/svg', height='26', viewBox='0 96 960 960', width='26')
-                path(d='M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z')
+          img(src='/images/websitebucketlist.png', alt='Website Logo', class='nav-logo')
+          if user
+            li
+              a.btn.btn-primary(href=`/home/${user._id}`) Home
+            li.hideOnMobile
+              a.btn.btn-primary(href=`/home/${user._id}/bucketlist`) My Bucket List
+            li.hideOnMobile
+              a.btn.btn-primary(href=`/home/${user._id}/bucketlistitemsforpost`) Forum
+            li.hideOnMobile
+              a.btn.btn-primary(href=`/home/${user._id}/agenda`) Agenda
+            li.hideOnMobile
+              a.btn.btn-primary(href=`/home/${user._id}/usersettings`) Settings
+            li.hideOnMobile
+              form(action="/logout" method="post" class="logout-form")
+                input(type="hidden" name="_method" value="DELETE")
+                button.btn.btn-link(type="submit") Log Out
+            li.menu-button(onclick='showSidebar()')
+              a(href='#')
+                svg(xmlns='http://www.w3.org/2000/svg', height='26', viewBox='0 96 960 960', width='26')
+                  path(d='M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z')
+          else
+            li
+              a.btn.btn-primary(href='/login') Log In
+            li
+              a.btn.btn-primary(href='/signup') Sign Up
+
     
     main
       block content

@@ -4,8 +4,10 @@ block content
   
     .container
       h1= title
-      p Hello #{user.first_name} #{user.family_name} you can manage your bucket list, find new items, connect with other users, participate in forums, and plan your activities.
-
+      if user
+        p Hello #{user.first_name} #{user.family_name} you can manage your bucket list, find new items, connect with other users, participate in forums, and plan your activities.
+      else
+        p Hello please log in or sign up to manage your bucket list, find new items, connect with other users, participate in forums, and plan your activities.
       .content
         h3#showTime
         h5 &ldquo;The most precious resource we all have is time.&rdquo; &mdash; Steve Jobs

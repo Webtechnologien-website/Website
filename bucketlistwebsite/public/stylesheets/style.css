@@ -112,14 +112,25 @@
     align-items: center;
     color: black;
   }
+  
   nav a:hover{
     background-color: #f0f0f0;
   }
   nav li:first-child{
     margin-right: auto;
   }
+  nav li:hover {
+    transform: translateY(-3px); /* Make the list item float */
+    transition: transform 0.2s; /* Smooth transition */
+    background-color: #f0f0f0; /* Change background color on hover */
+  }
+  
+  nav li:hover .logout-form {
+    background-color: #f0f0f0; /* Ensure the form background matches the list item */
+  }
   .sidebar{
-    z-index: 2;
+    z-index: 10;
+    position: fixed;
     top: 0; 
     right: 0;
     height: 100vh;
@@ -145,6 +156,7 @@
   @media(max-width: 800px){
     .hideOnMobile{
       display: none;
+      z-index: 1;
     }
     .menu-button{
       display: block;
@@ -152,6 +164,7 @@
   }
   @media(max-width: 400px){
     .sidebar{
+      z-index: 10;
       width: 100%;
     }
   }
@@ -191,7 +204,7 @@
    form {
      margin-top: 20px;
    }
-   
+   /*
    form div {
      margin-bottom: 15px;
    }
@@ -208,7 +221,7 @@
      padding: 10px;
      border: 1px solid #ccc;
      border-radius: 4px;
-   }
+   }*/
    
    ul.errors {
      list-style-type: none;
@@ -241,3 +254,16 @@
      background-color: #3498db85;
      color: #ff0000;
    }
+
+   .logout {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto; /* Push the logout form to the far right */
+    border: 2px solid red; /* Red border */
+    border-radius: 8px; /* Rounded corners */
+  }
+  .logout-form {
+    display: inline; /* Ensure the form is inline */
+    margin: 0; /* Remove any margin */
+    padding: 0; /* Remove any padding */
+  }

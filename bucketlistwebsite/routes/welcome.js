@@ -33,7 +33,11 @@ router.get('/home/:id/bucketlistitemsforpost', login_controller.checkAuthenticat
 router.get('/home/:id/bucketlistitem/:itemId/posts', login_controller.checkAuthenticated, post_controller.post_list);
 router.post('/home/:id/bucketlistitem/:itemId/posts', login_controller.checkAuthenticated, post_controller.post_create_post);
 
-router.get('/home/:id/agenda', agenda_controller.agenda_get);
+
+
+router.get('/home/:id/agenda',login_controller.checkAuthenticated, agenda_controller.agenda_get);
 router.post('/agenda/add', login_controller.checkAuthenticated, agenda_controller.add_to_agenda); // New route for adding to agenda
+
+router.get('/home/:id/usersettings', login_controller.checkAuthenticated, login_controller.change_settings_get);
 
 module.exports = router;

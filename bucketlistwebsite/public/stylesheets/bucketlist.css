@@ -16,6 +16,8 @@ body {
 }
 
 #map {
+  position: static; 
+  z-index: 0;
   flex: 1;
   margin-bottom: 20px;
 }
@@ -87,11 +89,15 @@ ul.errors li {
 }
 .nav-logo {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Align to the left */
+  align-items: center; /* Center vertically if needed */
   height: 70px; /* Adjust the height as needed */
-  width: auto; /* Maintain aspect ratio */
-  margin-right: 10px; /* Adjust the margin as needed */
+  margin-left: 0; /* Ensure it hugs the left border */
+  padding-left: 0; /* Remove any padding on the left */
+  position: absolute; /* Position it absolutely */
+  left: 0; /* Align it to the left edge */
 }
+
 .nav-form {
   display: flex;
   justify-content: center;
@@ -99,14 +105,5 @@ ul.errors li {
   margin-right: 10px;
   border: 2px solid red; /* Red border */
   border-radius: 10px; /* Rounded corners */
-  padding: 5px; /* Padding inside the form */
-}
-.logout {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: auto; /* Push the logout form to the far right */
-  border: 2px solid red; /* Red border */
-  border-radius: 8px; /* Rounded corners */
   padding: 5px; /* Padding inside the form */
 }
