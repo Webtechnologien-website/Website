@@ -19,7 +19,6 @@ initializePassport(
 );
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const welcomeRouter = require('./routes/welcome');
 const loginController = require('./controllers/loginController');
 
@@ -68,8 +67,42 @@ app.use((req, res, next) => {
   next();
 });
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
+app.use(async (req, res, next) => {
+  if (req.cookies.remember_me && !req.isAuthenticated()) {
+    try {
+      const user = await User.findById(req.cookies.remember_me);
+      if (user) {
+        req.logIn(user, (err) => {
+          if (err) {
+            return next(err);
+          }
+          return next();
+        });
+      } else {
+        return next();
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else {
+    return next();
+  }
+});
+
 app.use('/index', indexRouter);
-app.use('/users', usersRouter);
 app.use("/", welcomeRouter);
 
 app.get('/', loginController.checkAuthenticated, (req, res) => {

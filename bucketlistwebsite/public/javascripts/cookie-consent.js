@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
   const cookieBanner = document.getElementById('cookie-consent-banner');
-  const acceptCookiesButton = document.getElementById('accept-cookies');
+  const acceptButton = document.getElementById('accept-cookies');
 
   // Function to set a cookie
   function setCookie(name, value, days) {
@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
     return null;
   }
 
-  // Check if the cookie consent has already been accepted
-  if (getCookie('cookiesAccepted') !== 'true') {
-    cookieBanner.style.display = 'flex';
+  // Check if the cookie consent has been accepted
+  if (!getCookie('cookieConsent')) {
+    cookieBanner.style.display = 'block';
   }
 
-  // Set the cookie when the user accepts
-  acceptCookiesButton.addEventListener('click', function () {
-    setCookie('cookiesAccepted', 'true', 365);
+  // Set the cookie when the accept button is clicked
+  acceptButton.addEventListener('click', function() {
+    setCookie('cookieConsent', 'true', 365);
     cookieBanner.style.display = 'none';
   });
 });
