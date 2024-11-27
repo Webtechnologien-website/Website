@@ -19,7 +19,6 @@ initializePassport(
 );
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const welcomeRouter = require('./routes/welcome');
 const loginController = require('./controllers/loginController');
 
@@ -69,7 +68,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/index', indexRouter);
-app.use('/users', usersRouter);
 app.use("/", welcomeRouter);
 
 app.get('/', loginController.checkAuthenticated, (req, res) => {

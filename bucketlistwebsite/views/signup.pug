@@ -1,9 +1,43 @@
 extends loginlayout
 block content
+  
   button.btn.btn-secondary.back-button(type='button', style= 'left: 1000px;', onclick='window.location.href="/"')
       i.fa.fa-arrow-left Back to Home
 
   #main
+    // Import the required scripts and CSS for password-strength-meter
+    script(src='/javascripts/password-strength-meter.js')
+    link(rel='stylesheet', href='/stylesheets/password-strength-meter.css')
+
+    // Initialize the password strength meter
+    script.
+      $(document).ready(function() {
+        $('#password').password({
+          enterPass: 'Type your password',
+          shortPass: 'The password is too short',
+          containsField: 'The password contains your username',
+          steps: {
+            13: 'Really insecure password',
+            33: 'Weak; try combining letters & numbers',
+            67: 'Medium; try using special characters',
+            94: 'Strong password',
+          },
+          showPercent: false,
+          showText: true,
+          animate: true,
+          animateSpeed: 'fast',
+          field: false,
+          fieldPartialMatch: true,
+          minimumLength: 4,
+          useColorBarImage: true,
+          customColorBarRGB: {
+            red: [0, 240],
+            green: [0, 240],
+            blue: 10,
+          }
+        });
+      });
+
     form(action='/signup', method='post')
       div.label signup form
       div.form-group

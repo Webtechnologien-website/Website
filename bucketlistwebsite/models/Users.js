@@ -27,12 +27,16 @@ userSchema.methods.validatePassword = async function(password) {
 };
 
 userSchema.methods.register = async function () {
-  this.save();
+  await this.save();
 };
+
+userSchema.methods.changePassword = async function () {
+  await this.save();
+}
 
 // Pre-save hook to hash the password before saving
 //verander 'save' naar 'register' voor user changes
-userSchema.pre('register', async function(next) {
+userSchema.pre('save', async function(next) {
   if (this.isModified('passwordHash')) {
     const salt = await bcrypt.genSalt(10);
     this.passwordHash = await bcrypt.hash(this.passwordHash, salt);

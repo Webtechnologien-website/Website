@@ -116,10 +116,15 @@ exports.signup_post = [
       // Check if the username is already taken
       const existingUser = await User.findOne({ username: username });
       if (existingUser) {
+        console.log("error bij username");
         return res.render('signup', { title: 'Sign Up', error: 'Username already taken', errors: [] });
       }
 
-      // Hash the password
+      const existingEmail = await User.findOne({ email: email });
+      if (existingEmail) {
+        console.log("error bij mail");
+        return res.render('signup', { title: 'Sign Up', error: 'Email already taken', errors: [] });
+      }
 
 
       // Create a new user
@@ -164,20 +169,7 @@ exports.checkNotAuthenticated = (req, res, next) => {
   next();
 };
 
-exports.find_items_get = asyncHandler(async (req, res) => {
-  try {
-    const bucketlistId = req.params.id;
-    const bucketlist = await BucketList.findById(bucketlistId);
-    if (!bucketlist) {
-      return res.status(404).send('Bucket list not found');
-    }
-    const availableItems = await BucketListItem.find();
-    res.render('find_items', { title: 'Find More Items', availableItems: availableItems, bucketlist: bucketlist, user: req.user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server error');
-  }
-});
+
 
 exports.change_settings_get = asyncHandler(async (req, res) => {
   try {
@@ -192,3 +184,76 @@ exports.change_settings_get = asyncHandler(async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// Functie voor het wijzigen van de gebruikersnaam
+exports.changeUsername = async (req, res) => {
+  try {
+    const userId = req.user._id; // Zorg ervoor dat je de juiste manier gebruikt om de ingelogde gebruiker te krijgen
+    const newUsername = req.body.username;
+
+    // Controleer of de nieuwe gebruikersnaam anders is dan de huidige gebruikersnaam
+    const user = await User.findById(userId);
+    if (user.username === newUsername) {
+      return res.render('change_user_settings', { title: 'Change Settings', user: user, error: 'The new username matches the old username.' });
+    }
+
+    // Controleer of de nieuwe gebruikersnaam al in gebruik is
+    const existingUser = await User.findOne({ username: newUsername });
+    if (existingUser) {
+      return res.render('change_user_settings', { title: 'Change Settings', user: user, error: 'The new username is already in use.' });
+    }
+
+    await User.findByIdAndUpdate(userId, { username: newUsername });
+
+    res.redirect(`/home/${userId}/usersettings`); // Verwijs naar de juiste route na het opslaan
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Er is een fout opgetreden bij het wijzigen van de gebruikersnaam.');
+  }
+};
+
+// Functie voor het wijzigen van het e-mailadres
+exports.changeEmail = async (req, res) => {
+  try {
+    const userId = req.user._id; // Zorg ervoor dat je de juiste manier gebruikt om de ingelogde gebruiker te krijgen
+    const newEmail = req.body.email;
+
+    await User.findByIdAndUpdate(userId, { email: newEmail });
+
+    res.redirect(`/home/${userId}/usersettings`); // Verwijs naar de juiste route na het opslaan
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Er is een fout opgetreden bij het wijzigen van het e-mailadres.');
+  }
+};
+
+// Functie voor het wijzigen van het wachtwoord
+exports.changePassword = async (req, res, next) => {
+  try {
+    const userId = req.user._id; // Zorg ervoor dat je de juiste manier gebruikt om de ingelogde gebruiker te krijgen
+    const currentPassword = req.body.current_password;
+    const newPassword = req.body.password;
+    const confirmPassword = req.body.confirm_password;
+    const user = await User.findById(userId);
+    console.log(user);
+    // Controleer of het huidige wachtwoord overeenkomt met het wachtwoord van de gebruiker
+    const isMatch = user.validatePassword(currentPassword);
+
+    if (!isMatch) {
+      return res.render('change_user_settings', { title: 'Change Settings', user: req.user, passwordError: 'error with user.' });
+    }
+      
+    if (newPassword !== confirmPassword) {
+      return res.render('change_user_settings', { title: 'Change Settings', user: req.user, passwordError: 'Passwords do not match' });
+    }
+
+        
+    user.passwordHash = newPassword; // Zorg ervoor dat je wachtwoord hashing toepast
+    await user.changePassword();
+
+    res.redirect(`/home/${userId}/usersettings`); // Verwijs naar de juiste route na het opslaan
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
+  }
+};

@@ -1,9 +1,10 @@
 extends loginlayout
 
 block content
-  #main
-    button.btn.btn-secondary(type='button', style='position: absolute; top: 10px; left: 10px;', onclick='window.location.href="/"')
+  button.btn.btn-secondary(type='button', style='position: absolute; top: 10px; left: 10px;', onclick='window.location.href="/"')
       i.fa.fa-arrow-left Back to Home
+  #main
+    
     form(action='/login', method='post')
       div.label login form
       div.form-group

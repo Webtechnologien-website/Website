@@ -1,27 +1,37 @@
 extends layout
 
 block content
-    .container
-      h1 Change User Settings
-      form(action="/change-username" method="post")
-        div
-          label(for="username") Username:
-          input(type="text" name="username" id="username" required)
-        div
-          button(type="submit") Save username
-        
-      form(action="/change-email" method="post")
-        div
-          label(for="email") Email:
-          input(type="email" name="email" id="email" required)
-        div
-          button(type="submit") Save email
-      form(action="/change-password" method="post")
-        div
-          label(for="password") Password:
-          input(type="password" name="password" id="password" required)
-        div
-          label(for="confirm_password") Confirm Password:
-          input(type="password" name="confirm_password" id="confirm_password" required)
-        div
-          button(type="submit") Save password
+  .container
+    h1 Change User Settings
+    form(action=`/home/${user._id}/usersettings/change_username` method="post")
+      div
+        p Current Username: #{user.username}
+        label(for="username") new Username:
+        input(type="text" name="username" id="username" required)
+        if error
+          .error-message= error
+      div
+        button(type="submit") Save username
+    
+    form(action=`/home/${user._id}/usersettings/change_email` method="post")
+      div
+        p Current Email: #{user.email}
+        label(for="email") Email:
+        input(type="email" name="email" id="email" required)
+      div
+        button(type="submit") Save email
+    
+    form(action=`/home/${user._id}/usersettings/change_password` method="post")
+      div(for="password")
+        label(for="current_password") Current Password:
+        input(type="password" name="current_password" id="current_password" required)
+      div
+        label(for="password") New Password:
+        input(type="password" name="password" id="password" required)
+      div
+        label(for="confirm_password") Confirm New Password:
+        input(type="password" name="confirm_password" id="confirm_password" required)
+      if passwordError
+          .error-message= passwordError
+      div
+        button(type="submit") Save password
