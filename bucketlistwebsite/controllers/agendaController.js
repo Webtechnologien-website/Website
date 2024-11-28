@@ -11,16 +11,17 @@ const { DateTime } = require('luxon');
 exports.agenda_get = asyncHandler(async (req, res) => {
   try {
     const userId = req.user._id;
-    const bucketListItems = await BucketListToBucketListItem.find({ user: userId }).populate('bucketListItem');
-    const items = bucketListItems.map(item => ({
-      title: item.bucketListItem.nameItem,
-      start: item.bucketListItem.timeWhenOccurs
+    const agendaItems = await Agenda.find({ user: userId }).populate('itemId');
+
+    const items = agendaItems.map(item => ({
+      title: item.itemName,
+      start: item.date.toISOString() // Ensure the date is in ISO format
     }));
 
     res.render('agenda', { 
       title: 'Agenda', 
       user: req.user, 
-      bucketlistitems: items 
+      agendaItems: items 
     });
   } catch (error) {
     console.error(error);
@@ -35,15 +36,16 @@ exports.add_to_agenda = asyncHandler(async (req, res) => {
 
     const newAgendaItem = new Agenda({
       user: userId,
-      itemId,
-      itemName,
-      date
+      itemId: itemId,
+      itemName: itemName,
+      date: new Date(date) // Convert to JavaScript Date object
     });
 
     await newAgendaItem.save();
-    res.status(200).send('Item added to agenda successfully');
+
+    res.status(201).json({ message: 'Agenda item added successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Failed to add item to agenda');
+    res.status(500).send('Server error');
   }
 });
