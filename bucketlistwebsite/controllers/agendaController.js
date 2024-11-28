@@ -15,7 +15,7 @@ exports.agenda_get = asyncHandler(async (req, res) => {
 
     const items = agendaItems.map(item => ({
       title: item.itemName,
-      start: item.date
+      start: item.date.toISOString() // Ensure the date is in ISO format
     }));
 
     res.render('agenda', { 
@@ -36,15 +36,16 @@ exports.add_to_agenda = asyncHandler(async (req, res) => {
 
     const newAgendaItem = new Agenda({
       user: userId,
-      itemId,
-      itemName,
-      date
+      itemId: itemId,
+      itemName: itemName,
+      date: new Date(date) // Convert to JavaScript Date object
     });
 
     await newAgendaItem.save();
-    res.status(200).send('Item added to agenda successfully');
+
+    res.status(201).json({ message: 'Agenda item added successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Failed to add item to agenda');
+    res.status(500).send('Server error');
   }
 });

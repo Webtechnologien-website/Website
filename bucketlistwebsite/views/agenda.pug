@@ -23,6 +23,9 @@ block content
       padding: 20px;
       flex: 1;
     }
+    .fc-event-title, .fc-event-time {
+      color: white !important; // Change the text color of the event titles and times
+    }
 
   script.
     document.addEventListener('DOMContentLoaded', function() {
@@ -35,7 +38,7 @@ block content
           right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
         height: 'auto',
-        events: !{JSON.stringify(agendaItems)}
+        events: !{JSON.stringify(agendaItems)}, eventColor: '#378006'
       });
       calendar.render();
     });

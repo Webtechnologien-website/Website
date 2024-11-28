@@ -23,23 +23,27 @@ block content
     // Map container
     #map(style="height: 400px; width: 100%; margin-top: 20px;")
 
-    // Date selector modal
-    #dateModal.modal.fade(tabindex="-1", role="dialog")
-      .modal-dialog(role="document")
-        .modal-content
-          .modal-header
-            h5.modal-title Select Date
-            button.close(type="button", data-dismiss="modal", aria-label="Close")
+    // Modal for date and time selection
+    //- Modal for date and time selection
+    div#dateModal.modal.fade(tabindex="-1" role="dialog")
+      div.modal-dialog(role="document")
+        div.modal-content
+          div.modal-header
+            h5.modal-title Select Date and Time
+            button.close(type="button" data-dismiss="modal" aria-label="Close")
               span(aria-hidden="true") &times;
-          .modal-body
+          div.modal-body
             form#dateForm
               input(type="hidden" name="itemId" id="modalItemId")
               input(type="hidden" name="itemName" id="modalItemName")
-              .form-group
-                label(for="date") Select Date
-                input.form-control(type="date" name="date" id="modalDate")
-          .modal-footer
-            button.btn.btn-primary(type="button" onclick="addToAgenda()") Save
+              div.form-group
+                label(for="date") Date:
+                input.form-control(type="date" name="date" id="modalDate" required)
+              div.form-group
+                label(for="time") Time:
+                input.form-control(type="time" name="time" id="modalTime" required)
+          div.modal-footer
+            button.btn.btn-primary(type="button" onclick="submitDateForm()") Add to Agenda
             button.btn.btn-secondary(type="button" data-dismiss="modal") Close
 
     script.
@@ -64,30 +68,38 @@ block content
         $('#dateModal').modal('show');
       }
 
-      async function addToAgenda() {
+      function submitDateForm() {
         const itemId = document.getElementById('modalItemId').value;
         const itemName = document.getElementById('modalItemName').value;
         const date = document.getElementById('modalDate').value;
+        const time = document.getElementById('modalTime').value;
 
-        if (!date) {
-          alert('Please select a date.');
-          return;
-        }
+        // Combine date and time into a single DateTime string
+        const dateTime = `${date}T${time}`;
 
-        const response = await fetch('/agenda/add', {
+        // Make an AJAX request to add the item to the agenda
+        $.ajax({
+          url: '/agenda/add',
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
+          data: {
+            itemId: itemId,
+            itemName: itemName,
+            date: dateTime
           },
-          body: JSON.stringify({ itemId, itemName, date })
+          success: function(response) {
+            alert('Agenda item added successfully');
+            $('#dateModal').modal('hide');
+          },
+          error: function(error) {
+            console.error(error);
+            alert('Failed to add agenda item');
+          }
         });
-
-        if (response.ok) {
-          $('#dateModal').modal('hide');
-          alert('Item added to agenda successfully!');
-        } else {
-          alert('Failed to add item to agenda.');
-        }
+        console.log({
+          itemId: itemId,
+          itemName: itemName,
+          date: dateTime
+        });
       }
 
       document.addEventListener('DOMContentLoaded', initMap);
