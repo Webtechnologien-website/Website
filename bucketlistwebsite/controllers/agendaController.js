@@ -11,16 +11,17 @@ const { DateTime } = require('luxon');
 exports.agenda_get = asyncHandler(async (req, res) => {
   try {
     const userId = req.user._id;
-    const bucketListItems = await BucketListToBucketListItem.find({ user: userId }).populate('bucketListItem');
-    const items = bucketListItems.map(item => ({
-      title: item.bucketListItem.nameItem,
-      start: item.bucketListItem.timeWhenOccurs
+    const agendaItems = await Agenda.find({ user: userId }).populate('itemId');
+
+    const items = agendaItems.map(item => ({
+      title: item.itemName,
+      start: item.date
     }));
 
     res.render('agenda', { 
       title: 'Agenda', 
       user: req.user, 
-      bucketlistitems: items 
+      agendaItems: items 
     });
   } catch (error) {
     console.error(error);
