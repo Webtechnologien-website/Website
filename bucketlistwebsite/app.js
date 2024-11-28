@@ -9,7 +9,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const User = require('./models/Users');
-
+const MongoStore = require('connect-mongo');
 
 const initializePassport = require('./passport-config');
 initializePassport(
@@ -47,9 +47,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(flash());
 app.use(session({
-  secret: 'your_secret_key', // Set your session secret directly
+  secret: 'your_secret_key', // Vervang 'your_secret_key' door een sterke geheime sleutel
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
 }));
 app.use(passport.initialize());
 app.use(passport.session());

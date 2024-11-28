@@ -9,7 +9,7 @@ const BucketListToBucketListItem = require('../models/BucketListToBucketListItem
 const asyncHandler = require('express-async-handler');
 
 exports.welcome_get = (req, res) => {
-  res.render('Home', { title: 'home' });
+  res.render('home', { title: 'Home', activeUsers: res.locals.activeUsers });
 };
 
 exports.login_get = (req, res) => {
