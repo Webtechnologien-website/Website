@@ -168,6 +168,9 @@
       width: 100%;
     }
   }
+  .full-calendar-container {
+    position: relative;
+  }
    
    .container {
      position: relative;

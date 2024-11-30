@@ -76,6 +76,13 @@ block content
 
         // Combine date and time into a single DateTime string
         const dateTime = `${date}T${time}`;
+        const selectedDate = new Date(dateTime);
+        const currentDate = new Date();
+
+        if (selectedDate < currentDate) {
+          alert('The selected date cannot be in the past.');
+          return; // Stop the form submission
+        }
 
         // Make an AJAX request to add the item to the agenda
         $.ajax({
