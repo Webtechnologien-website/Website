@@ -50,10 +50,10 @@ exports.post_list = asyncHandler(async (req, res) => {
 
   const formattedPosts = posts.map(post => ({
     ...post.toObject(),
-    createdAtFormatted: DateTime.fromJSDate(post.createdAt).toLocaleString(DateTime.DATETIME_MED),
+    createdAtFormatted: DateTime.fromJSDate(post.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS),
     reactedPost: post.reactedPost ? {
       ...post.reactedPost.toObject(),
-      createdAtFormatted: post.reactedPost.createdAt ? DateTime.fromJSDate(post.reactedPost.createdAt).toLocaleString(DateTime.DATETIME_MED) : 'undefined'
+      createdAtFormatted: post.reactedPost.createdAt ? DateTime.fromJSDate(post.reactedPost.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS) : 'undefined'
     } : null
   }));
 
@@ -91,10 +91,10 @@ exports.post_create_post = asyncHandler(async (req, res) => {
   });
 
   // Format the createdAt field using Luxon
-  populatedPost.createdAtFormatted = DateTime.fromJSDate(populatedPost.createdAt).toLocaleString(DateTime.DATETIME_MED);
+  populatedPost.createdAtFormatted = DateTime.fromJSDate(populatedPost.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
 
   if (populatedPost.reactedPost) {
-    populatedPost.reactedPost.createdAtFormatted = populatedPost.reactedPost.createdAt ? DateTime.fromJSDate(populatedPost.reactedPost.createdAt).toLocaleString(DateTime.DATETIME_MED) : 'undefined';
+    populatedPost.reactedPost.createdAtFormatted = populatedPost.reactedPost.createdAt ? DateTime.fromJSDate(populatedPost.reactedPost.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS) : 'undefined';
   }
 
   res.json({ newPost: populatedPost });
