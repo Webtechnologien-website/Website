@@ -3,6 +3,8 @@ extends layout
 block content
   .container
     a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}`) Back to Bucket List
+    a.btn.btn-primary(href=`/home/${user._id}/bucketlistitem/create`) Add Items
+
     h1= title
     p Welcome to the Find Items page. Here you can view all available items and add them to your bucket list.
 

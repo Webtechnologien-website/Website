@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  .container
+    h1= title
+    form(action="/home/${user._id}/bucketlistitem/create" method="post")
+      div.form-group
+        label(for="nameItem") Item Name
+        input#nameItem.form-control(type="text" name="nameItem" required)
+
+      div.form-group
+        label(for="description") Description
+        textarea#description.form-control(name="description" rows="3")
+
+      div.form-group
+        label(for="location") Location
+        input#location.form-control(type="text" name="location")
+
+      div.form-group
+        label(for="latitude") Latitude
+        input#latitude.form-control(type="text" name="latitude")
+
+      div.form-group
+        label(for="longitude") Longitude
+        input#longitude.form-control(type="text" name="longitude")
+
+      div.form-group
+        label(for="timeWhenOccurs") Date
+        input#timeWhenOccurs.form-control(type="date" name="timeWhenOccurs")
+
+      button.btn.btn-primary(type="submit") Submit

@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Require our controllers.
 const bucketlist_controller = require("../controllers/bucketlistController");
+const bucketListItem_controller = require('../controllers/bucketListItemController');
 const agenda_controller = require("../controllers/agendaController.js");
 const post_controller = require("../controllers/postController");
 const login_controller = require("../controllers/loginController");
@@ -12,6 +13,10 @@ const login_controller = require("../controllers/loginController");
 router.get('/cookie-policy', (req, res) => {
     res.render('cookie_policy', { title: 'Cookie Policy' });
 });
+
+router.get('/home/:id/bucketlistitem/create', login_controller.checkAuthenticated, bucketListItem_controller.bucketlistitem_create_get);
+router.post('/home/:id/bucketlistitem/create', login_controller.checkAuthenticated, bucketListItem_controller.bucketlistitem_create_post);
+
 
 router.get('/', login_controller.welcome_get);
 router.get('/login', login_controller.login_get);
