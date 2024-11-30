@@ -110,6 +110,9 @@ a:hover {
   padding-bottom: 15px;
   text-transform: capitalize;
 }
+#remember-me {
+  width: 20px;
+}
 
 @media(max-width:610px) {
   form {

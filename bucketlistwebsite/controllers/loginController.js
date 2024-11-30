@@ -9,7 +9,20 @@ const BucketListToBucketListItem = require('../models/BucketListToBucketListItem
 const asyncHandler = require('express-async-handler');
 
 exports.welcome_get = (req, res) => {
-  res.render('home', { title: 'Home', activeUsers: res.locals.activeUsers });
+  try {
+    res.render('home', { title: 'Home', script: `
+      document.addEventListener('DOMContentLoaded', function () {
+        let showTime = document.getElementById('showTime');
+        setInterval(() => {
+          let time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+          showTime.innerText = time;
+        }, 1000);
+      });
+    ` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
 };
 
 exports.login_get = (req, res) => {

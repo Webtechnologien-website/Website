@@ -22,13 +22,8 @@ postSchema.virtual('url').get(function () {
 postSchema.virtual('createdAtFormatted').get(function () {
   return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
-  
-// Virtual for formatted reaction dates
-postSchema.virtual('reactionsFormatted').get(function () {
-  return this.reactions.map(reaction => ({
-    ...reaction._doc,
-    createdAtFormatted: DateTime.fromJSDate(reaction.createdAt).toLocaleString(DateTime.DATE_MED),
-  }));
-});
+
+postSchema.set('toObject', { virtuals: true });
+postSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('Post', postSchema);
