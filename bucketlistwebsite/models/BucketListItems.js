@@ -12,12 +12,10 @@ const bucketListItemSchema = new Schema({
   timeWhenOccurs: { type: Date },
 });
 
-// Virtual for bucket list item's URL
 bucketListItemSchema.virtual('url').get(function () {
   return `/bucketlistitem/${this._id}`;
 });
 
-// Virtual for formatted time when occurs
 bucketListItemSchema.virtual('timeWhenOccursFormatted').get(function () {
   return this.timeWhenOccurs ? DateTime.fromJSDate(this.timeWhenOccurs).toLocaleString(DateTime.DATE_MED) : '';
 });

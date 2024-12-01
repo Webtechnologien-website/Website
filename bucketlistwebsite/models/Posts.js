@@ -10,15 +10,13 @@ const postSchema = new Schema({
   bucketListItem: { type: Schema.Types.ObjectId, ref: 'BucketListItem', required: true },
   status: { type: String, default: 'public' },
   createdAt: { type: Date, default: Date.now },
-  reactedPost: { type: Schema.Types.ObjectId, ref: 'Post', default: null }, // Reference to the post that reacted to this post
+  reactedPost: { type: Schema.Types.ObjectId, ref: 'Post', default: null }, 
 });
 
-// Virtual for post's URL
 postSchema.virtual('url').get(function () {
   return `/posts/${this._id}`;
 });
   
-// Virtual for formatted creation date
 postSchema.virtual('createdAtFormatted').get(function () {
   return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });

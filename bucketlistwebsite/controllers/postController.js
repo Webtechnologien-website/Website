@@ -5,9 +5,9 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const { DateTime } = require('luxon');
 
-// Display all bucket list items with post counts
 exports.bucketlistitem_list = asyncHandler(async (req, res) => {
   const bucketListItems = await BucketListItem.find();
+  // aantal posts binnenin forum item
   const postCounts = await Post.aggregate([
     { $group: { _id: "$bucketListItem", count: { $sum: 1 } } }
   ]);
@@ -17,6 +17,7 @@ exports.bucketlistitem_list = asyncHandler(async (req, res) => {
     return map;
   }, {});
 
+  // dit is nodig voor de datum
   const formattedItems = bucketListItems.map(item => ({
     ...item.toObject(),
     postCount: postCountMap[item._id] || 0,
@@ -25,6 +26,7 @@ exports.bucketlistitem_list = asyncHandler(async (req, res) => {
       : ''
   }));
 
+
   res.render('bucketlistitem_list', {
     title: 'Bucket List Items',
     bucketListItems: formattedItems,
@@ -32,7 +34,7 @@ exports.bucketlistitem_list = asyncHandler(async (req, res) => {
   });
 });
 
-// Display all posts for a bucket list item
+// elke post voor een item displayen
 exports.post_list = asyncHandler(async (req, res) => {
   const bucketListItemId = req.params.itemId;
   const bucketListItem = await BucketListItem.findById(bucketListItemId);
@@ -41,10 +43,10 @@ exports.post_list = asyncHandler(async (req, res) => {
     return res.status(404).send('Bucket list item not found');
   }
   const posts = await Post.find({ bucketListItem: bucketListItemId })
-    .populate('user') // Populate user details
+    .populate('user') 
     .populate({
       path: 'reactedPost',
-      populate: { path: 'user' } // Populate user details for reactedPost
+      populate: { path: 'user' } 
     })
     .sort({ createdAt: 1 });
 
@@ -66,12 +68,12 @@ exports.post_list = asyncHandler(async (req, res) => {
   });
 });
 
-// Handle post creation
+// Nodig om de posts toe te voegen
 exports.post_create_post = asyncHandler(async (req, res) => {
   const { title, body } = req.body;
   const bucketListItemId = req.params.itemId;
 
-  // Find the last post in the thread
+  // We zoeken de de nieuwste post dit is de post waar de nieuwe post moet naar wijzen
   const lastPost = await Post.findOne({ bucketListItem: bucketListItemId }).sort({ createdAt: -1 });
 
   const newPost = new Post({
@@ -79,23 +81,23 @@ exports.post_create_post = asyncHandler(async (req, res) => {
     body: body,
     user: req.user._id,
     bucketListItem: bucketListItemId,
+    // hier gebeurd de verwijzing
     reactedPost: lastPost ? lastPost._id : null
   });
 
   await newPost.save();
-
-  // Populate user and reactedPost details
+  
   const populatedPost = await Post.findById(newPost._id).populate('user').populate({
     path: 'reactedPost',
     populate: { path: 'user' }
   });
 
-  // Format the createdAt field using Luxon
   populatedPost.createdAtFormatted = DateTime.fromJSDate(populatedPost.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
 
   if (populatedPost.reactedPost) {
     populatedPost.reactedPost.createdAtFormatted = populatedPost.reactedPost.createdAt ? DateTime.fromJSDate(populatedPost.reactedPost.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS) : 'undefined';
   }
 
+  // nodig voor ajax
   res.json({ newPost: populatedPost });
 });

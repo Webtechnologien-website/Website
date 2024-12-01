@@ -5,7 +5,6 @@ block content
     a.btn.btn-primary(href=`/home/${user._id}/bucketlist`) Back to BucketList List
     h1= title
 
-    // List all bucket list items
     if items && items.length > 0
       ul
         each item in items
@@ -20,11 +19,8 @@ block content
 
     a.btn.btn-primary(href=`/home/${user._id}/bucketlist/${bucketlist._id}/find_items`) Find More Items
 
-    // Map container
     #map(style="height: 400px; width: 100%; margin-top: 20px;")
 
-    // Modal for date and time selection
-    //- Modal for date and time selection
     div#dateModal.modal.fade(tabindex="-1" role="dialog")
       div.modal-dialog(role="document")
         div.modal-content
@@ -74,17 +70,15 @@ block content
         const date = document.getElementById('modalDate').value;
         const time = document.getElementById('modalTime').value;
 
-        // Combine date and time into a single DateTime string
         const dateTime = `${date}T${time}`;
         const selectedDate = new Date(dateTime);
         const currentDate = new Date();
 
         if (selectedDate < currentDate) {
           alert('The selected date cannot be in the past.');
-          return; // Stop the form submission
+          return; 
         }
 
-        // Make an AJAX request to add the item to the agenda
         $.ajax({
           url: '/agenda/add',
           method: 'POST',
@@ -111,7 +105,6 @@ block content
 
       document.addEventListener('DOMContentLoaded', initMap);
 
-    // Display validation errors if any
     if errors && errors.length > 0
       ul.errors
         each error in errors

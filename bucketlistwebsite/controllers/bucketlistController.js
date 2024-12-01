@@ -10,6 +10,7 @@ const { DateTime } = require('luxon');
 exports.bucketlist_detail = asyncHandler(async (req, res) => {
   try {
     const bucketlistId = req.params.id;
+    // id van bucketlist moet gegeven zijn
     const bucketlist = await BucketList.findById(bucketlistId);
     if (!bucketlist) {
       return res.status(404).send('Bucket list not found');
@@ -28,6 +29,7 @@ exports.bucketlist_detail = asyncHandler(async (req, res) => {
 
 exports.bucketlist_list = asyncHandler(async (req, res) => {
   try {
+    // dit is de user zijn bucketlijsten
     const userId = req.params.id;
     const user = await User.findById(userId);
     if (!user) {
@@ -45,10 +47,10 @@ exports.bucketlist_create_get = (req, res) => {
   res.render(`/home/${user._id}/bucketlist/`, { title: 'Create Bucket List' });
 };
 
-// Handle bucket list creation on POST
+
 exports.bucketlist_create_post = asyncHandler(async (req, res) => {
   const { name, description } = req.body;
-
+  // haal alle info en maak een nieuwe bucketlist
   const newBucketlist = new BucketList({
     name: name,
     description: description,
@@ -56,24 +58,11 @@ exports.bucketlist_create_post = asyncHandler(async (req, res) => {
   });
 
   await newBucketlist.save();
-
+  //ajax werkt met json en dus is dit nodig
   res.json({ newBucketlist });
 });
 
-// Handle bucket list deletion on POST
-exports.bucketlist_delete_post = asyncHandler(async (req, res) => {
-  try {
-    const bucketlistId = req.params.id;
-    const userId = req.user._id;
-    await BucketList.findByIdAndDelete(bucketlistId);
-    res.redirect(`/home/${req.user._id}/bucketlist`);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server error');
-  }
-});
-
-// Display available items to add to the bucket list
+// Haal alle bucketlistitems op en laat het zien wanneer deze plaatsvinden
 exports.find_items_get = asyncHandler(async (req, res) => {
   try {
     const bucketListId = req.params.id;
@@ -86,6 +75,7 @@ exports.find_items_get = asyncHandler(async (req, res) => {
     const connections = await BucketListToBucketListItem.find({ bucketList: bucketListId });
     const connectedItemIds = connections.map(connection => connection.bucketListItem.toString());
 
+    // we moeten tijd formateren van JS formaat naar iets leesbaar
     const formattedItems = availableItems.map(item => ({
       ...item.toObject(),
       timeWhenOccursFormatted: item.timeWhenOccurs
@@ -93,6 +83,7 @@ exports.find_items_get = asyncHandler(async (req, res) => {
         : ''
     }));
 
+    // stuur alle info naar frontend
     res.render('find_items', { 
       title: 'Find More Items', 
       availableItems: formattedItems, 
@@ -106,7 +97,6 @@ exports.find_items_get = asyncHandler(async (req, res) => {
   }
 });
 
-// Handle adding item to bucket list
 exports.find_items_post = asyncHandler(async (req, res) => {
   const { itemId } = req.body;
   const bucketListId = req.params.id;
@@ -121,13 +111,13 @@ exports.find_items_post = asyncHandler(async (req, res) => {
     return res.status(404).send('Bucket list item not found');
   }
 
-  // Create a new connection between the bucket list and the item
   const newConnection = new BucketListToBucketListItem({
     bucketList: bucketListId,
     bucketListItem: itemId
   });
 
   await newConnection.save();
-
+  
+  // opnieuw hier ajax werkt met json
   res.json({ success: true });
 });

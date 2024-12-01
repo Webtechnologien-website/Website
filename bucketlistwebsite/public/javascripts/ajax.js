@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('.create-post-form').on('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting normally
+    event.preventDefault(); // zorgt ervoor dat original form wordt overschreven
 
     const form = $(this);
     const actionUrl = form.attr('action');
@@ -11,10 +11,8 @@ $(document).ready(function() {
       url: actionUrl,
       data: formData,
       success: function(response) {
-        // Assuming the server returns the new post in the response
         const newPost = response.newPost;
 
-        // Create the new post HTML using Pug-like syntax
         const newPostHtml = `
           <li class="post-details">
             <p>${newPost.title}</p>
@@ -25,21 +23,19 @@ $(document).ready(function() {
           </li>
         `;
 
-        // Append the new post to the list of posts
         $('ul.post-list').append(newPostHtml);
-
-        // Optionally, clear the form fields
+        
+        // dit leegt de fields
         form[0].reset();
       },
       error: function(error) {
-        // Handle any errors
         alert('Error adding post: ' + error.responseText);
       }
     });
   });
 
   $('.create-bucketlist-form').on('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting normally
+    event.preventDefault(); 
 
     const form = $(this);
     const actionUrl = form.attr('action');
@@ -50,10 +46,8 @@ $(document).ready(function() {
       url: actionUrl,
       data: formData,
       success: function(response) {
-        // Assuming the server returns the new bucket list in the response
         const newBucketlist = response.newBucketlist;
 
-        // Create the new bucket list HTML using Pug-like syntax
         const newBucketlistHtml = `
           <li>
             <h2>${newBucketlist.name}</h2>
@@ -62,14 +56,12 @@ $(document).ready(function() {
           </li>
         `;
 
-        // Append the new bucket list to the list of bucket lists
         $('ul.bucketlist-list').append(newBucketlistHtml);
-
-        // Optionally, clear the form fields
+        
+        // dit leegt de fields
         form[0].reset();
       },
       error: function(error) {
-        // Handle any errors
         alert('Error adding bucket list: ' + error.responseText);
       }
     });

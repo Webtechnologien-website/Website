@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// Require our controllers.
+// Al de controllers.
 const bucketlist_controller = require("../controllers/bucketlistController");
 const agenda_controller = require("../controllers/agendaController.js");
 const post_controller = require("../controllers/postController");

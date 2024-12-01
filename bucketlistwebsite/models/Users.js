@@ -15,13 +15,11 @@ const userSchema = new Schema({
   passwordHash: { type: String, required: true },
 });
 
-// Method to set the password
 userSchema.methods.setPassword = async function(password) {
   const salt = await bcrypt.genSalt(10);
   this.passwordHash = await bcrypt.hash(password, salt);
 };
 
-// Method to validate the password
 userSchema.methods.validatePassword = async function(password) {
   return bcrypt.compare(password, this.passwordHash);
 };
@@ -34,8 +32,6 @@ userSchema.methods.changePassword = async function () {
   await this.save();
 }
 
-// Pre-save hook to hash the password before saving
-//verander 'save' naar 'register' voor user changes
 userSchema.pre('save', async function(next) {
   if (this.isModified('passwordHash')) {
     const salt = await bcrypt.genSalt(10);
@@ -44,7 +40,6 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-// Virtual for user's full name
 userSchema.virtual('name').get(function () {
   let fullname = '';
   if (this.first_name && this.family_name) {
@@ -53,17 +48,14 @@ userSchema.virtual('name').get(function () {
   return fullname;
 });
 
-// Virtual for user's URL
 userSchema.virtual('url').get(function () {
   return `/users/${this._id}`;
 });
 
-// Virtual for formatted date of birth
 userSchema.virtual('date_of_birth_formatted').get(function () {
   return this.date_of_birth ? DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED) : '';
 });
 
-// Virtual for formatted creation date
 userSchema.virtual('createdAt_formatted').get(function () {
   return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });

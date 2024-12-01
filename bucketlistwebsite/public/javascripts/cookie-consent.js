@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const cookieBanner = document.getElementById('cookie-consent-banner');
   const acceptButton = document.getElementById('accept-cookies');
 
-  // Function to set a cookie
+  // de functie om een cookie te plaatsen 
   function setCookie(name, value, days) {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
   }
 
-  // Function to get a cookie
   function getCookie(name) {
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
@@ -22,12 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
     return null;
   }
 
-  // Check if the cookie consent has been accepted
+  // Cals cookieconsent niet is geaccepteerd blijven de banner laten zien
   if (!getCookie('cookieConsent')) {
     cookieBanner.style.display = 'block';
   }
 
-  // Set the cookie when the accept button is clicked
+  // zoja dan accepteren we de cookie en laten we de banner weg
   acceptButton.addEventListener('click', function() {
     setCookie('cookieConsent', 'true', 365);
     cookieBanner.style.display = 'none';

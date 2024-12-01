@@ -10,6 +10,7 @@ const asyncHandler = require('express-async-handler');
 
 exports.welcome_get = (req, res) => {
   try {
+    // dit is de homescreen, we willen dat het uur op de pagina komt
     res.render('home', { title: 'Home', script: `
       document.addEventListener('DOMContentLoaded', function () {
         let showTime = document.getElementById('showTime');
@@ -40,6 +41,7 @@ exports.home_user_get = async (req, res) => {
     if (!user) {
       return res.status(404).send('User not found');
     }
+    // hier excact hetzelfde als bij de welcome, maar met user gegevens
     res.render('home', { title: 'Home', user: user, script: `
       document.addEventListener('DOMContentLoaded', function () {
         let showTime = document.getElementById('showTime');
@@ -64,7 +66,8 @@ exports.login_post = (req, res, next) => {
   body('password', 'Password must be between 8 and 100 characters.')
     .isLength({ min: 8, max: 100 })
     .escape(),
-  
+
+  // we maken gebruik van passport via passport-config.js
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       return next(err);
@@ -72,12 +75,14 @@ exports.login_post = (req, res, next) => {
     if (!user) {
       return res.redirect('/login');
     }
+    // bij succes naar home screen
     req.logIn(user, (err) => {
       if (err) {
         return next(err);
       }
+      // de login cookie vooral belangrijk bij afsluiten browser of reset van server
       if (req.body['remember-me']) {
-        res.cookie('remember_me', user._id, { path: '/', httpOnly: true, maxAge: 1 * 24 * 60 * 60 * 1000 }); // 30 days
+        res.cookie('remember_me', user._id, { path: '/', httpOnly: true, maxAge: 1 * 24 * 60 * 60 * 1000 }); // 1 dag
       }
       return res.redirect(`/home/${user._id}`);
     });
@@ -85,7 +90,7 @@ exports.login_post = (req, res, next) => {
 };
 
 exports.signup_post = [
-  // Validate and sanitize fields.
+  
   body('username', 'Username must not be empty.')
     .trim()
     .isLength({ min: 1, max: 100 })
@@ -115,35 +120,32 @@ exports.signup_post = [
     return true;
   }),
 
-  // Process request after validation and sanitization.
   async (req, res) => {
     const errors = validationResult(req);
 
-    // Extract the validated and sanitized data.
     const { username, email, first_name, family_name, password } = req.body;
 
+    //errors door sanitering
     if (!errors.isEmpty()) {
       console.log("Validation error:", errors.array());
-      // There are errors. Render the form again with sanitized values/error messages.
       return res.render('signup', { title: 'Sign Up', errors: errors.array() });
     }
 
     try {
-      // Check if the username is already taken
+      // De username mag niet al bestaan anders geeft het errors in mongoDB
       const existingUser = await User.findOne({ username: username });
       if (existingUser) {
         console.log("error bij username");
         return res.render('signup', { title: 'Sign Up', error: 'Username already taken', errors: [] });
       }
 
+      // Hetzelfde bij de mail
       const existingEmail = await User.findOne({ email: email });
       if (existingEmail) {
         console.log("error bij mail");
         return res.render('signup', { title: 'Sign Up', error: 'Email already taken', errors: [] });
       }
 
-
-      // Create a new user
       const newUser = new User({
         username: username,
         email: email,
@@ -153,7 +155,7 @@ exports.signup_post = [
       });
       await newUser.register();
 
-      // Registration successful, redirect to login page
+      // Hierna naar login screen zodat user direct kan inloggen
       return res.redirect('/login');
     } catch (error) {
       console.error(error);
@@ -163,6 +165,7 @@ exports.signup_post = [
 ];
 
 exports.logout = (req, res) => {
+  // als we cookie niet clearen dan zijn we volgende keer weer ingelogd
   res.clearCookie('remember_me');
   req.logout((err) => {
     if (err) {
@@ -173,6 +176,7 @@ exports.logout = (req, res) => {
 };
 
 exports.checkAuthenticated = (req, res, next) => {
+  // Dit checkt of de user nog ingelogd is, zoniet dan gaan we naar de login
   if (req.isAuthenticated()) {
     return next();
   }

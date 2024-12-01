@@ -10,11 +10,9 @@ block content
 
   div#calendar(style="margin: 40px 0; height: 600px;")
 
-  //- Include FullCalendar dependencies (updated paths)
   script(src="/fullcalendar/core/index.global.min.js")
   script(src="/fullcalendar/daygrid/index.global.min.js")
   
-  //- Add some basic styling for the calendar
   style.
     #calendar {
       position: relative; 
@@ -23,8 +21,9 @@ block content
       padding: 20px;
       flex: 1;
     }
+    //verander de kleur van de events
     .fc-event-title, .fc-event-time {
-      color: white !important; // Change the text color of the event titles and times
+      color: white !important;
     }
 
   script.

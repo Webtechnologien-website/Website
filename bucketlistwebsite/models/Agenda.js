@@ -9,7 +9,6 @@ const agendaSchema = new Schema({
   date: { type: Date, required: true }
 });
 
-// Virtual for agenda item's URL
 agendaSchema.virtual('url').get(function () {
   return `/agenda/${this._id}`;
 });

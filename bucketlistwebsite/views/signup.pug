@@ -5,11 +5,10 @@ block content
       i.fa.fa-arrow-left Back to Home
 
   #main
-    // Import the required scripts and CSS for password-strength-meter
     script(src='/javascripts/password-strength-meter.js')
     link(rel='stylesheet', href='/stylesheets/password-strength-meter.css')
-
-    // Initialize the password strength meter
+    
+    // dit is voor de password strength checker
     script.
       $(document).ready(function() {
         $('#password').password({

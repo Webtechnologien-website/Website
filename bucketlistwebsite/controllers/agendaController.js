@@ -11,17 +11,18 @@ const { DateTime } = require('luxon');
 exports.agenda_get = asyncHandler(async (req, res) => {
   try {
     const userId = req.user._id;
+    // zoek alle items van de user
     const agendaItems = await Agenda.find({ user: userId }).populate('itemId');
 
     const items = agendaItems.map(item => ({
       title: item.itemName,
-      start: item.date.toISOString() // Ensure the date is in ISO format
+      start: item.date.toISOString() // we zorgen ervoor dat datum in iso formaat is.
     }));
 
     res.render('agenda', { 
       title: 'Agenda', 
       user: req.user, 
-      agendaItems: items 
+      agendaItems: items // stuur de items door
     });
   } catch (error) {
     console.error(error);
@@ -38,7 +39,7 @@ exports.add_to_agenda = asyncHandler(async (req, res) => {
       user: userId,
       itemId: itemId,
       itemName: itemName,
-      date: new Date(date) // Convert to JavaScript Date object
+      date: new Date(date) // naar javascript datum formaat belangrijk voor de model
     });
 
     await newAgendaItem.save();

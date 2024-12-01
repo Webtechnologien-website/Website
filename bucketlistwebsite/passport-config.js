@@ -1,8 +1,9 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const User = require('./models/Users'); // Import the User model
+const User = require('./models/Users');
 
 function initialize(passport, getUserByUsername, getUserById) {
+  // dit zorgt voor de login
   const authenticateUser = async (username, password, done) => {
     try {
       const user = await getUserByUsername(username);
@@ -15,6 +16,7 @@ function initialize(passport, getUserByUsername, getUserById) {
         return done(null, false, { message: 'Password hash not found' });
       }
 
+      // de functie in de model om het wachtwoord te checken
       const isMatch = await user.validatePassword(password);
       console.log(user);
       if (isMatch) {

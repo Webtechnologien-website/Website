@@ -4,7 +4,6 @@ block content
   .container
     h1= title
 
-    // List all bucket list items
     if bucketlists && bucketlists.length > 0
       ul.bucketlist-list
         each bucketlist in bucketlists
@@ -24,7 +23,6 @@ block content
 
       button.btn.btn-primary(type="submit") Create Bucket List
 
-    // Display validation errors if any
     if errors && errors.length > 0
       ul.errors
         each error in errors
