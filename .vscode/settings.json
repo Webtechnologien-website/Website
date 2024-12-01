@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/2e3656a8-b584-4bde-abda-dff2c48f56a0/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/BucketBound",
+    "appService.deploySubpath": "bucketlistwebsite"
+}
